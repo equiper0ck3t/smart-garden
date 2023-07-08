@@ -3,7 +3,7 @@
 
 PAC-V
 
-Projeto desenvolvido pela equipe rocket
+Projeto desenvolvido pela Equipe Rocket
 
 ## Desenvolvido pelos sócios:
 - Brenda Aldrovandi Gaio
