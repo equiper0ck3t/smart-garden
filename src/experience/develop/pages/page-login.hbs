@@ -1,0 +1,790 @@
+{{#fillSection "metaDescription"}} Login {{/fillSection}}
+{{#fillSection "pageName"}} Login {{/fillSection}}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+<!-- Main -->
+<div class="d-lg-flex half" style="overflow: hidden;">
+
+  <!-- Left side -->
+  <div class="contents order-2 order-md-1" style="width: 40%;">
+    <div class="container">
+
+      <!-- Centralizes all content -->
+      <div class="row align-items-center justify-content-center h-auto mb-4"
+        style="overflow-y: auto; height: 100vh!important;">
+
+        <!-- Login Screen -->
+        <div class="col-md-8" id="login-screen">
+
+          <!-- Image (Logo) -->
+          <div class="d-flex justify-content-center mb-2">
+            <img rel="preload" as="image" class="image-logo" src="https://~exportplaceholderid-files-domain~/61393a3a1bf26100086c1005/images/logo-final.png"
+              style="width:85% !important; object-fit: fill; height: 100% !important;" alt="WEG Image">
+          </div>
+
+          <!-- Header -->
+          <div class="mb-4">
+            <h3 class="text-center">Bem-vindo</h3>
+            <p class="text-center">Entre com suas credenciais</p>
+          </div>
+
+          <!-- Form -->
+          <div class="mt-5">
+
+            <form id="loginForm">
+
+              <!-- Messages -->
+              <div class="text-center w-100 mb-3" id="loginResponseError"
+                style="display: none; font-size: 14px; color: #ED2C00;">
+                <span id="txtResponseMessage"></span>
+              </div>
+
+              <!-- E-mail -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-envelope text-muted" alt="E-mail" aria-label="Ícone de envelope para o campo de e-mail"></i>
+                  </span>
+                </div>
+                <input type="email" name="email" id="email" title="Insira seu endereço de e-mail no formato exemplo@exemplo.com" placeholder="E-mail" class="form-control bg-white border-left-0 border-md" autocomplete="off" required>
+              </div>
+
+              <!-- Password -->
+              <div class="input-group col-lg-12 mb-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-lock text-muted" alt="Lock" title="Fechadura"></i>
+                  </span>
+                </div>
+                <input id="password" type="password" name="password" placeholder="Senha" class="form-control bg-white border-left-0 border-md password" autocomplete="on" required>
+                <button type="button" class="toggle" tabindex="-1" name="btn-toggle-password" alt="Submit Button" aria-label="Alternar visualização da senha" aria-describedby="password-toggle-description">
+                  <i toggle="#password" id="eyeIcon" class="fa fa-eye toggle-password"></i>
+                </button>
+                <span id="password-toggle-description" class="sr-only">Clique para alternar a visualização da senha</span>
+              </div>
+
+              <!-- Forgot password -->
+              <div class="text-right w-100" style="font-size: 14px;">
+                <a href="#" class="text-primary ml-2 px-4" id="btn-forgot-password" alt="Forgot Password?">Esqueceu a senha?</a>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="form-group col-lg-12 mx-auto mt-4">
+                <button type="submit" class="btn btn-primary btn-block py-2" id="btnLogin" name="btn-login" aria-label="Botão para enviar o formulário de login">
+                  <span class="font-weight-bold">Entrar</span>
+                </button>
+              </div>
+
+              <!-- Don't have an account?  -->
+              <div class="text-center mb-auto without-account" style="font-size: 15px; height: 3rem;" aria-label="Seção para usuários sem conta">
+                <p id="btn-without-account">Não tem uma conta?<a href="#" class="text-primary ml-2" title="Cadastre-se para criar uma conta">Cadastre-se</a></p>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <!-- Register Screen -->
+        <div class="col-md-8" id="register-screen" style="display: none;">
+
+          <!-- Image -->
+          <div class="d-flex justify-content-center mb-5">
+            <img rel="preload" as="image" class="image-logo" src="https://~exportplaceholderid-files-domain~/61393a3a1bf26100086c1005/images/logo-final.png"
+              style="width:85% !important; object-fit: fill; height: 100% !important;" alt="WEG Image">
+          </div>
+
+          <!-- Header -->
+          <div class="mb-4">
+            <h3 class="text-center">Criar conta</h3>
+            <p class="text-center">Preencha os campos necessários e cadastre sua conta</p>
+          </div>
+
+          <!-- Form -->
+          <div class="mt-4">
+
+            <form id="registerAccountForm">
+
+              <div class="text-center w-100 mb-3" id="registerResponseError" style="display: none; font-size: 14px;">
+                <span id="txtRegisterResponse"></span>
+              </div>
+
+              <!-- Name -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-user text-muted"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control bg-white border-left-0 border-md" id="firstName" name="firstName"
+                  placeholder="Nome completo" value="{{pageData.firstName}}"
+                  autocomplete="off" minlength="1" maxlength="255" keyup required>
+              </div>
+
+              <!-- E-mail -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-envelope text-muted" alt="E-mail"></i>
+                  </span>
+                </div>
+                <input type="email" class="form-control bg-white border-left-0 border-md" name="email"
+                  placeholder="E-mail" value="{{pageData.email}}"
+                  autocomplete="off" minlength="1" maxlength="255" keyup required>
+              </div>
+
+              <!-- Password -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-lock text-muted" alt="Lock" title="Fechadura"></i>
+                  </span>
+                </div>
+                <input id="registerPassword" type="password" name="registerPassword"
+                  placeholder="Senha"
+                  class="form-control bg-white border-left-0 border-md password" autocomplete="off" minlength="8"
+                  maxlength="255" required>
+                <button type="button" class="toggle" tabindex="-1" name="btn-toggle-password" alt="Submit Button">
+                  <i toggle="#registerPassword" id="eyeIcon" class="fa fa-eye toggle-password"></i>
+                </button>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-lock text-muted" alt="Lock" title="Fechadura"></i>
+                  </span>
+                </div>
+                <input id="registerConfirmPassword" type="password" name="registerConfirmPassword"
+                  placeholder="Confirmar senha"
+                  class="form-control bg-white border-left-0 border-md password" autocomplete="off" minlength="8"
+                  maxlength="255" required>
+                <button type="button" class="toggle" tabindex="-1" name="btn-toggle-password" alt="Submit Button">
+                  <i toggle="#registerConfirmPassword" id="eyeIcon" class="fa fa-eye toggle-password"></i>
+                </button>
+              </div>
+
+              <div class="input-group col-lg-12 mb-3 d-none" id="strength-section">
+                <div class="w-100" id="popover-password">
+                  <p style="font-size: 12px;">Força da senha: <span id='result'></span></p>
+                  <div class="progress" style="height: 0.5rem;">
+                    <div id="password-strength" class="progress-bar progress-bar-success" role="progressbar"
+                      aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%"> </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="form-group col-lg-12 mx-auto mt-4">
+                <button type="submit" class="btn btn-primary btn-block py-2" id="btnRegisterAccount" name="btn-register-account">
+                  <span class="font-weight-bold">Criar conta</span>
+                </button>
+              </div>
+
+              <!-- Have an account?  -->
+              <div class="text-center mb-auto" style="font-size: 15px;">
+                <p id="btn-have-account">Já possui uma conta?<a href="#" class="text-primary ml-2">Conecte-se</a></p>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <!-- Forgot Password Screen -->
+        <div class="col-md-8" id="forgot-password-screen" style="display: none;">
+
+          <!-- Image -->
+          <div class="d-flex justify-content-center mb-5">
+            <img rel="preload" as="image" class="image-logo" src="https://~exportplaceholderid-files-domain~/61393a3a1bf26100086c1005/images/logo-final.png"
+              style="width:85% !important; object-fit: fill; height: 100% !important;" alt="WEG Image">
+          </div>
+
+          <!-- Header -->
+          <div class="mb-4">
+            <h3 class="text-center">Redefinir senha</h3>
+            <p class="text-center">Informe seu e-mail para obter um link de redefinição de senha</p>
+          </div>
+
+          <!-- Form -->
+          <div class="mt-5">
+
+            <form id="forgotPasswordForm">
+
+              <!-- Messages -->
+              <div class="text-center w-100 mb-3 txtResponse" id="forgotResponseSuccess"
+                style="display: none; font-size: 14px; color: #425F0F;">
+                <span><i class='fas fa-check-circle' style='margin-right: 10px;'></i> Em alguns instantes, um e-mail será enviado com instruções para redefinir a senha da sua conta.</span>
+              </div>
+
+              <!-- E-mail -->
+              <div class="input-group col-lg-12 mb-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-envelope text-muted" alt="E-mail"></i>
+                  </span>
+                </div>
+                <input id="forgotEmail" type="email" name="email" placeholder="E-mail"
+                  class="form-control bg-white border-left-0 border-md" autocomplete="off" required>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="form-group col-lg-12 mx-auto mt-4">
+                <button type="submit" class="btn btn-primary btn-block py-2" id="btnForgotPassword" name="btn-forgot-password" alt="Forgot Password?" disabled>
+                  <span class="font-weight-bold">Redefinir senha</span>
+                </button>
+              </div>
+
+              <!-- Remember password -->
+              <div class="form-group col-lg-12 mx-auto mt-4 text-right w-100" style="font-size: 14px;">
+                <p id="btn-remember-password">Lembra-se da sua senha?<a href="#" class="text-primary ml-2">Conecte-se</a></p>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <!-- Reset Password Screen -->
+        <div class="col-md-8" id="reset-screen" style="display: none;">
+
+          <!-- Image -->
+          <div class="d-flex justify-content-center mb-5">
+            <img rel="preload" as="image" class="image-logo" src="https://~exportplaceholderid-files-domain~/61393a3a1bf26100086c1005/images/logo-final.png"
+              style="width:85% !important; object-fit: fill; height: 100% !important;" alt="WEG Image">
+          </div>
+
+          <!-- Header -->
+          <div class="mb-4">
+            <h3 class="text-center">Redefinir senha</h3>
+            <p class="text-center">Preencha os campos obrigatórios e redefina sua senha</p>
+          </div>
+
+          <!-- Form -->
+          <div class="mt-4">
+
+            <form id="resetPasswordForm">
+
+              <div class="text-center w-100 mb-3" id="resetResponseError" style="display: none; font-size: 14px;">
+                <span id="txtResetResponse"></span>
+              </div>
+
+              <!-- E-mail -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-envelope text-muted" alt="E-mail"></i>
+                  </span>
+                </div>
+                <input type="email" class="form-control bg-white border-left-0 border-md" name="email"
+                  i18n-placeholder="email.singular.email" i18n-default="E-mail" value="{{pageData.email}}"
+                  autocomplete="off" minlength="1" maxlength="255" keyup required>
+              </div>
+
+              <!-- Password -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-lock text-muted" alt="Lock" title="Fechadura"></i>
+                  </span>
+                </div>
+                <input id="resetPassword" type="password" name="resetPassword" i18n-placeholder="password.singular"
+                  i18n-default="Password" class="form-control bg-white border-left-0 border-md password"
+                  autocomplete="off" minlength="8" maxlength="255" required>
+                <button type="button" class="toggle" tabindex="-1" name="btn-toggle-password" alt="Submit Button">
+                  <i toggle="#resetPassword" id="eyeIcon" class="fa fa-eye toggle-password"></i></button>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="input-group col-lg-12 mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="fa fa-lock text-muted" alt="Lock" title="Fechadura"></i>
+                  </span>
+                </div>
+                <input id="resetConfirmPassword" type="password" name="resetConfirmPassword"
+                  i18n-placeholder="confirm_password" i18n-default="Confirm password"
+                  class="form-control bg-white border-left-0 border-md password" autocomplete="off" minlength="8"
+                  maxlength="255" required>
+                <button type="button" class="toggle" tabindex="-1" name="btn-toggle-password" alt="Submit Button">
+                  <i toggle="#resetConfirmPassword" id="eyeIcon" class="fa fa-eye toggle-password"></i></button>
+              </div>
+
+              <div class="input-group col-lg-12 mb-3 d-none" id="strength-section">
+                <div class="w-100" id="popover-password">
+                  <p style="font-size: 12px;">Força da senha: <span id='result'></span></p>
+                  <div class="progress" style="height: 0.5rem;">
+                    <div id="password-strength" class="progress-bar progress-bar-success" role="progressbar"
+                      aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%"> </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="form-group col-lg-12 mx-auto mt-4">
+                <button type="submit" class="btn btn-primary btn-block py-2" id="btnResetPassword" name="btn-reset-password">
+                  <span class="font-weight-bold">Redefinir senha</span>
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <!-- Footer - All Rights Reserved -->
+        <div class="d-none container py-3 text-center footer" id="content_footer">
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side -->
+  <div class="bg order-1 order-md-2" id="rightSide" style="background-image: url('https://www.housedigest.com/img/gallery/what-is-a-smart-garden-and-should-you-buy-one/intro-1677007007.jpg'); width: 60%;">
+    
+    <div class="content-left-wrapper opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)" style="background-color: rgba(0, 0, 0, 0.6); height: 100%;">
+      <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+          <div class="col-12">
+            <h1 class="ml-4" id="dsd-heading">Smart Garden</h1>
+            <p class="ml-4" style="color: #E1E1E1; width: 80%; word-break: break-word;" id="dsd-description">
+              A aplicação web inteligente de gerenciamento de jardins permite monitorar e controlar remotamente a irrigação, a fertilização e as condições climáticas, proporcionando economia de tempo e recursos para os usuários.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  {{#if experience.user }}
+    window.location.href = '/';
+  {{/if}}
+
+  $(document).trigger('loginPageReadyV2');
+
+  // Screen Change
+  $('#btn-forgot-password').click(() => {
+    $('#login-screen').css('display', 'none');
+    $('#forgot-password-screen').css('display', 'block');
+    $('#loginForm')[0].reset();
+  });
+
+  $('#btn-remember-password').click(() => {
+    $('#forgot-password-screen').css('display', 'none');
+    $('#login-screen').css('display', 'block');
+    $('#forgotPasswordForm')[0].reset();
+  });
+
+  $('#btn-without-account').click(() => {
+    $('#login-screen').css('display', 'none');
+    $('#register-screen').css('display', 'block');
+    $('#loginForm')[0].reset();
+  });
+
+  $('#btn-have-account').click(() => {
+    $('#registerResponseError').css('display', 'none');
+    $('#register-screen').css('display', 'none');
+    $('#login-screen').css('display', 'block');
+    $('#strength-section').addClass('d-none');
+    $('#registerAccountForm')[0].reset();
+  });
+
+  // Show and hide password
+  $(".toggle-password").click(function () {
+
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    var input = $($(this).attr("toggle"));
+
+    if (input.attr("type") == "password") {
+      input.attr("type", "text");
+    } else {
+      input.attr("type", "password");
+    }
+
+  });
+
+  // When the user fills in the field, it is verified that the email entered is valid
+  $('#forgotEmail').on('input', () => {
+    isEmail($('#forgotEmail').val())
+  });
+
+  // Email verification function
+  function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (regex.test(email)) {
+      $('#btnForgotPassword').prop('disabled', false);
+    } else {
+      $('#btnForgotPassword').prop('disabled', true);
+    }
+  }
+
+    function hash(string) {
+    const utf8 = new TextEncoder().encode(string);
+    return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray
+        .map((bytes) => bytes.toString(16).padStart(2, '0'))
+        .join('');
+      return hashHex;
+    });
+  }
+
+  $('#registerPassword').keyup(() => {
+    if (checkStrength($('#registerPassword').val()) == false) {
+      $('#sign-up').attr('disabled', true);
+    }
+  });
+  $('#registerPassword').focusin(() => {
+    $('#strength-section').removeClass('d-none');
+  });
+
+  $('#registerConfirmPassword,#registerPassword').blur(function () {
+    if ($('#registerPassword').val() !== $('#registerConfirmPassword').val()) {
+      $('#txtRegisterResponse').replaceWith(
+        `<span id="txtRegisterResponse"><i class="fas fa-exclamation-triangle"></i> As senhas não correspondem.</span>`
+      );
+
+      $('#registerResponseError').css('color', '#ED2C00');
+      $('#registerResponseError').css('display', 'block');
+    } else {
+      $('#registerResponseError').css('display', 'none');
+    }
+
+    if ($('#registerPassword').val() === '') {
+      checkStrength($('#registerPassword').val())
+      $('#strength-section').addClass('d-none');
+    }
+  });
+
+  //Atualiza traduções
+  $( ".dropdown-item-lng" ).on( "click", function() {
+    $('#registerPassword').trigger('keyup');
+    $('#registerConfirmPassword,#registerPassword').trigger('blur');
+  });
+
+  function checkStrength(password) {
+    var strength = 0;
+
+    //If password contains both lower and uppercase characters, increase strength value.
+    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+      strength += 1;
+      $('.low-upper-case').addClass('text-success');
+      $('.low-upper-case i').removeClass('fa-file-text').addClass('fa-check');
+      $('#popover-password-top').addClass('hide');
+    } else {
+      $('.low-upper-case').removeClass('text-success');
+      $('.low-upper-case i').addClass('fa-file-text').removeClass('fa-check');
+      $('#popover-password-top').removeClass('hide');
+    }
+
+    //If it has numbers and characters, increase strength value.
+    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
+      strength += 1;
+      $('.one-number').addClass('text-success');
+      $('.one-number i').removeClass('fa-file-text').addClass('fa-check');
+      $('#popover-password-top').addClass('hide');
+
+    } else {
+      $('.one-number').removeClass('text-success');
+      $('.one-number i').addClass('fa-file-text').removeClass('fa-check');
+      $('#popover-password-top').removeClass('hide');
+    }
+
+    //If it has one special character, increase strength value.
+    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
+      strength += 1;
+      $('.one-special-char').addClass('text-success');
+      $('.one-special-char i').removeClass('fa-file-text').addClass('fa-check');
+      $('#popover-password-top').addClass('hide');
+
+    } else {
+      $('.one-special-char').removeClass('text-success');
+      $('.one-special-char i').addClass('fa-file-text').removeClass('fa-check');
+      $('#popover-password-top').removeClass('hide');
+    }
+
+    if (password.length > 7) {
+      strength += 1;
+      $('.eight-character').addClass('text-success');
+      $('.eight-character i').removeClass('fa-file-text').addClass('fa-check');
+      $('#popover-password-top').addClass('hide');
+
+    } else {
+      $('.eight-character').removeClass('text-success');
+      $('.eight-character i').addClass('fa-file-text').removeClass('fa-check');
+      $('#popover-password-top').removeClass('hide');
+    }
+
+    // If value is less than 2
+    if (strength < 2) {
+      $('#result').removeClass()
+      $('#password-strength').addClass('progress-bar-danger');
+
+
+      $('#result').addClass('text-danger').text('Muito fraco');
+      $('#password-strength').css('width', '10%');
+    } else if (strength == 2) {
+      $('#result').addClass('good');
+      $('#password-strength').removeClass('progress-bar-danger');
+      $('#password-strength').addClass('progress-bar-warning');
+      $('#result').addClass('text-warning').text('Fraco')
+      $('#password-strength').css('width', '60%');
+      return 'Week'
+    } else if (strength == 4) {
+      $('#result').removeClass()
+      $('#result').addClass('strong');
+      $('#password-strength').removeClass('progress-bar-warning');
+      $('#password-strength').addClass('progress-bar-success');
+      $('#result').addClass('text-success').text('Forte');
+      $('#password-strength').css('width', '100%');
+
+      return 'Strong'
+    }
+
+  }
+
+  // Forms
+
+  // Login Form
+  $('#loginForm').submit(function (event) {
+    event.preventDefault();
+
+    $('#btnLogin').attr('disabled', true);
+    $('#btnLogin').append(
+      '<span class="spinner-border spinner-border-sm text-info ml-2" role="status" aria-hidden="true"></span>'
+    );
+    $('#loginResponseError').css('display', 'none');
+
+    $.ajax({
+      type: 'POST',
+      url: '/login',
+      data: JSON.stringify($('#loginForm').serializeJSON()),
+      contentType: 'application/json',
+      error: (err) => {
+        $('#txtResponseMessage').replaceWith(
+          `<i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i><span> E-mail ou senha incorretos </span>`
+        );
+        $('#loginResponseError').css('display', 'block');
+        $('#btnLogin').find('.spinner-border').remove();
+        $('#btnLogin').attr('disabled', false);
+      },
+      success: (data) => {
+        {{#if request.query.redirect}}
+          $(location).attr('href', '{{request.query.redirect}}');
+        {{else}}
+          $(location).attr('href', '/');
+        {{/if}}
+      }
+    });
+
+    setTimeout(() => {
+      $('#loginResponseError').css('display', 'none');
+    }, 10000);
+
+  });
+
+  // Forgot Password Form
+  $('#forgotPasswordForm').submit(function (event) {
+    event.preventDefault();
+
+    $('#btnForgotPassword').prop('disabled', true);
+    $('#btnForgotPassword').append(
+      '<span class="spinner-border spinner-border-sm text-info ml-2" role="status" aria-hidden="true"></span>'
+    );
+
+    $.ajax({
+      type: 'POST',
+      url: '/forgot-password',
+      data: JSON.stringify($('#forgotPasswordForm').serializeJSON()),
+      contentType: 'application/json',
+      dataType: 'text',
+      cache: false,
+    }).always(() => {
+      $('#forgotResponseSuccess').css('display', 'block');
+      $('#btnForgotPassword').prop('disabled', false);
+      $('#btnForgotPassword').find('.spinner-border').remove();
+    });
+
+    setTimeout(() => {
+      if ($('#forgotEmail').val() === '') {
+        $('#btnForgotPassword').prop('disabled', true);
+      }
+      $('.txtResponse').css('display', 'none');
+    }, 10000);
+
+  });
+
+  // Register Account Form
+  $('#registerAccountForm').submit(function (event) {
+    event.preventDefault();
+
+    $('#btnRegisterAccount').attr('disabled', true);
+    $('#btnRegisterAccount').append(
+      '<span class="spinner-border spinner-border-sm text-info ml-2" role="status" aria-hidden="true"></span>'
+    );
+
+    if ($('#registerPassword').val() !== $('#registerConfirmPassword').val()) {
+      $('#txtRegisterResponse').replaceWith(
+        `<span id="txtRegisterResponse"><i class="fas fa-exclamation-triangle"></i> As senhas não correspondem </span>`
+      );
+
+      $('#registerResponseError').css('color', '#ED2C00');
+      $('#registerResponseError').css('display', 'block');
+
+      $('#btnRegisterAccount').attr('disabled', false);
+      $('#btnRegisterAccount').find('.spinner-border').remove();
+    } else {
+
+      $('#registerResponseError').css('display', 'none');
+
+      // Serialize Form Data
+      let data = $('#registerAccountForm').serializeArray();
+
+      // Add Lastname
+      data.push({
+        name: 'lastName',
+        value: $('#firstName').val().split(' ').slice(1).toString().replaceAll(',', ' ')
+      });
+      data.push({
+        name: 'agree',
+        value: $('#termsCheck').is(':checked')
+      });
+      data.push({
+        'name': 'language',
+        'value': 'pt-BR'
+      });
+
+      // Set specific options
+      $.each(data, (index, value) => {
+        if (value.name === 'registerPassword') {
+          value.name = 'password';
+        } else if (value.name === 'firstName') {
+          value.value = $('#firstName').val().split(' ')[0];
+        }
+      });
+
+      $.ajax({
+        type: 'GET',
+        url: '/manage/users/add',
+        data: data,
+        error: (err) => {
+          if (err.status === 400) {
+            $('#txtRegisterResponse').replaceWith(
+              `<span id="txtRegisterResponse"><i class="fas fa-exclamation-triangle"></i> Campos inválidos </span>`
+            );
+          } else if (err.status === 409) {
+            $('#txtRegisterResponse').replaceWith(
+              `<span id="txtRegisterResponse"><i class="fas fa-exclamation-triangle"></i> Usuário já cadastrado </span>`
+            );
+          }
+          $('#registerResponseError').css('color', '#ED2C00');
+          $('#registerResponseError').css('display', 'block');
+        },
+        success: (data) => {
+          $('#txtRegisterResponse').replaceWith(
+            `<span id="txtRegisterResponse"><i class="fas fa-check-circle"></i> Confirme seu email para ter acesso a aplicação </span>`
+          );
+          $('#registerResponseError').css('color', '#425F0F');
+          $('#registerResponseError').css('display', 'block');
+          $('#strength-section').addClass('d-none');
+          $('#registerAccountForm')[0].reset();
+        }
+      }).always(() => {
+        $('#btnRegisterAccount').attr('disabled', false);
+        $('#btnRegisterAccount').find('.spinner-border').remove();
+      });
+
+    }
+
+    setTimeout(() => {
+      $('#registerResponseError').css('display', 'none');
+    }, 10000);
+
+  });
+
+  // Register Account Form
+  $('#resetPasswordForm').submit(function (event) {
+    event.preventDefault();
+
+    $('#btnResetPassword').attr('disabled', true);
+    $('#btnResetPassword').append(
+      '<span class="spinner-border spinner-border-sm text-info ml-2" role="status" aria-hidden="true"></span>'
+    );
+
+    if ($('#resetPassword').val() !== $('#resetConfirmPassword').val()) {
+      $('#txtResetResponse').replaceWith(
+        `<i class="fas fa-exclamation-triangle"></i> As senhas não correspondem `);
+
+      $('#resetResponseError').css('color', '#ED2C00');
+      $('#resetResponseError').css('display', 'block');
+
+      $('#btnResetPassword').attr('disabled', false);
+      $('#btnResetPassword').find('.spinner-border').remove();
+    } else {
+
+      $('#resetResponseError').css('display', 'none');
+      $('#txtResetResponse').replaceWith(
+        `<i class="fas fa-check-circle"></i> Confirme seu email para ter acesso a aplicação `);
+
+      // Serialize Form Data
+      let data = $('#resetPasswordForm').serializeArray();
+
+      // Set specific options
+      $.each(data, (index, value) => {
+        if (value.name === 'resetPassword') {
+          value.name = 'password';
+        }
+      });
+
+      data.pop();
+
+      $.ajax({
+        type: 'POST',
+        url: `/reset-password?token=${new URLSearchParams(window.location.search).get('token')}`,
+        data: data,
+        error: (err) => {
+        },
+        success: (data) => {
+          $('#loginResponseError').css('color', '#425F0F');
+          $('#loginResponseError').css('display', 'block');
+          $('#txtResponseMessage').replaceWith(
+            `<i class="fas fa-check-circle"></i> Senha alterada com sucesso `);
+          $('#strength-section').addClass('d-none');
+          $('#reset-screen').css('display', 'none');
+          $('#login-screen').css('display', 'block');
+          $('#resetPasswordForm')[0].reset();
+
+          window.location.href = '/';
+        }
+      }).always(() => {
+        $('#btnResetPassword').attr('disabled', false);
+        $('#btnResetPassword').find('.spinner-border').remove();
+      });
+
+    }
+
+    setTimeout(() => {
+      $('#loginResponseError').css('display', 'none');
+    }, 10000);
+
+  });
+
+  $(document).ready(() => {
+    if (new URLSearchParams(window.location.search).get('token') !== null) {
+      $('#login-screen').css('display', 'none');
+      $('#reset-screen').css('display', 'block');
+    }
+  });
+</script>

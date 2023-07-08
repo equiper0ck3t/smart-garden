@@ -1,0 +1,379 @@
+resourceType: ExperienceFlowVersion
+resources:
+  - description: Created for Endpoint GET /manage/devices
+    enabled: true
+    flowId: ~exportplaceholderid-flow-getManageDevices-3~
+    globals: []
+    id: ~exportplaceholderid-flowVersion-getManageDevices-3~
+    name: GET /manage/devices
+    nodes:
+      - config:
+          bodyTemplate: working
+          bodyTemplateType: path
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ~exportplaceholderid-experienceView-pageDevices-7~
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: vAPNFD1sSJ
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 100
+          'y': 460
+        outputIds:
+          - - vVs1QOWOuE
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: vVs1QOWOuE
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 100
+          'y': 540
+        outputIds: []
+        type: DebugNode
+      - config:
+          attributesAsObject: false
+          findMetadata: false
+          findMethod: query
+          findMultiple: true
+          includeConnectionStatus: true
+          includeState: false
+          queryTemplate: |-
+            {
+              "$and": [
+                {
+                  "tags": {
+                    "$eq": {
+                      "$tagKey": "userId",
+                      "$tagValue": "{{experience.user.id}}"
+                    }
+                  }
+                }
+              ]
+            }
+          resultPath: working.result
+          resultsPage: ''
+          resultsPerPage: ''
+          sortDirection: asc
+          sortField: name
+          tagsAsObject: false
+        id: FKmqFFtknu
+        meta:
+          category: data
+          description: ''
+          label: 'Device: Get'
+          name: get-device
+          x: 200
+          'y': 220
+        outputIds:
+          - - aEEeEPNVsl
+        type: GetDeviceNode
+      - config:
+          scopePath: working.result
+          script: "for(let i in payload){\r\n    let obj = {};\r\n    obj[\"id\"] = payload[i].id;\r\n    obj[\"name\"] = payload[i][\"name\"];\r\n    obj[\"lastUpdated\"] = payload[i][\"lastUpdated\"];\r\n    obj[\"prod\"] = payload[i].tags.find(tag => tag.key === \"productivity\").value;\r\n\r\n    payload[i] = obj;\r\n}"
+        id: MyWUukJoHG
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 200
+          'y': 380
+        outputIds:
+          - - vAPNFD1sSJ
+        type: RawFunctionNode
+      - config:
+          bodyTemplate: "{\n\t\"myCustomData\": \"Add custom data here\"\n}"
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo:
+            - keyTemplate: Content-Type
+              valueTemplate: application/json
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: z3wpd82GCy
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 440
+          'y': 200
+        outputIds:
+          - - fCsZpOJiMC
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: fCsZpOJiMC
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 440
+          'y': 280
+        outputIds: []
+        type: DebugNode
+      - config:
+          attributesAsObject: false
+          dataMethod: individualFields
+          descriptionTemplate: ''
+          deviceAttributes: []
+          deviceClassTemplate: standalone
+          deviceTags:
+            - keyTemplate: userId
+              valueTemplate: '{{data.query.userId}}'
+          nameTemplate: '{{data.query.name}}'
+          parentIdTemplate: ''
+          recipeIdTemplate: ~exportplaceholderid-deviceRecipe-smartGardenSensor-0~
+          resultPath: working.result
+          tagsAsObject: false
+        id: DPXVE2On8f
+        meta:
+          category: data
+          description: ''
+          label: 'Device: Create'
+          name: create-device
+          x: 440
+          'y': 120
+        outputIds:
+          - - z3wpd82GCy
+        type: CreateDeviceNode
+      - config:
+          bodyTemplate: "{\n\t\"myCustomData\": \"Add custom data here\"\n}"
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo:
+            - keyTemplate: Content-Type
+              valueTemplate: application/json
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: Ip3gg_ygEv
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 640
+          'y': 200
+        outputIds:
+          - - Z3hTMeG71V
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: Z3hTMeG71V
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 640
+          'y': 280
+        outputIds: []
+        type: DebugNode
+      - config:
+          bodyTemplate: "{\n\t\"myCustomData\": \"Add custom data here\"\n}"
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo:
+            - keyTemplate: Content-Type
+              valueTemplate: application/json
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: spV9STwe57
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 840
+          'y': 200
+        outputIds:
+          - - F_ChTAOlRc
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: F_ChTAOlRc
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 840
+          'y': 280
+        outputIds: []
+        type: DebugNode
+      - config:
+          dataMethod: id
+          deviceIdTemplate: '{{data.query.id}}'
+          resultPath: ''
+        id: 1LvCbwWhiw
+        meta:
+          category: data
+          description: ''
+          label: 'Device: Delete'
+          name: delete-device
+          x: 840
+          'y': 120
+        outputIds:
+          - - spV9STwe57
+        type: DeviceDeleteWorkflowNode
+      - config:
+          attributesAsObject: false
+          dataMethod: individualFields
+          descriptionTemplate: ''
+          deviceAttributes: []
+          deviceClassTemplate: ''
+          deviceTags:
+            - keyTemplate: userId
+              valueTemplate: '{{experience.user.id}}'
+          gatewayIdTemplate: ''
+          idTemplate: '{{data.query.id}}'
+          nameTemplate: '{{data.query.name}}'
+          parentIdTemplate: ''
+          resultPath: ''
+          tagsAsObject: false
+        id: h1V8jNmnWV
+        meta:
+          category: data
+          description: ''
+          label: 'Device: Update'
+          name: update-device
+          x: 640
+          'y': 120
+        outputIds:
+          - - Ip3gg_ygEv
+        type: UpdateDeviceNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: aEEeEPNVsl
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 200
+          'y': 300
+        outputIds:
+          - - MyWUukJoHG
+        type: DebugNode
+      - config:
+          expression: '{{experience.user.id}}'
+        id: j4EDq3UFDB
+        meta:
+          category: logic
+          description: ''
+          label: Conditional
+          name: conditional
+          x: 80
+          'y': 140
+        outputIds:
+          - - 9xzEIJn3n8
+          - - FKmqFFtknu
+        type: ConditionalNode
+      - config:
+          rules:
+            - destination: working.result
+              type: set
+              valueTemplate: '[]'
+              valueTemplateType: json
+        id: 9xzEIJn3n8
+        meta:
+          category: logic
+          description: ''
+          label: Mutate
+          name: mutate
+          x: 20
+          'y': 220
+        outputIds:
+          - - vAPNFD1sSJ
+        type: MutateNode
+    triggers:
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageDevices-5~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/devices
+          name: endpoint
+          uiId: oqnYI7hSiq
+          x: 80
+          'y': 60
+        outputIds:
+          - - j4EDq3UFDB
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageDevicesAdd-8~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users/add
+          name: endpoint
+          uiId: oPy4S8H1r7
+          x: 440
+          'y': 40
+        outputIds:
+          - - DPXVE2On8f
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageDevicesEdit-9~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users/add
+          name: endpoint
+          uiId: il2fr1NBFu
+          x: 640
+          'y': 40
+        outputIds:
+          - - h1V8jNmnWV
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageDevicesRemove-10~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users/add
+          name: endpoint
+          uiId: _ombmkpa9k
+          x: 840
+          'y': 40
+        outputIds:
+          - - 1LvCbwWhiw
+        type: endpoint
+    version: develop
+version: 1

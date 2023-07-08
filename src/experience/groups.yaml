@@ -1,0 +1,10 @@
+resourceType: ExperienceGroupTree
+resources:
+  - children: []
+    deviceIds: []
+    deviceTags: []
+    groupTags: {}
+    id: ~exportplaceholderid-experienceGroup-administrators-0~
+    name: ADMINISTRATORS
+    parentId: null
+version: 1

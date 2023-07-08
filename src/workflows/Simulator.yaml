@@ -1,0 +1,1831 @@
+resourceType: Flow
+resources:
+  - description: ''
+    flowClass: cloud
+    globals: []
+    id: ~exportplaceholderid-flow-simulator-6~
+    name: Simulator
+    nodes:
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+
+
+            let time = 1686193200000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: NDoXukAvNE
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 60
+          'y': 280
+        outputIds:
+          - - pXeAuduvCT
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: pXeAuduvCT
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 60
+          'y': 360
+        outputIds:
+          - - HYVCsFMk_m
+          - - gKsGEkHpFT
+        type: LoopNode
+      - config:
+          loopNodeId: pXeAuduvCT
+          mapValuePath: ''
+          shouldBreak: false
+        id: aB77FF4lI3
+        meta:
+          category: loop
+          description: ''
+          groupId: pXeAuduvCT
+          label: Next
+          name: loop-next
+          x: 260
+          'y': 680
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: BEqvEfSKSZ
+        meta:
+          category: logic
+          description: ''
+          groupId: pXeAuduvCT
+          label: Delay
+          name: delay
+          x: 180
+          'y': 360
+        outputIds:
+          - - dEk5yXIVuw
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: gKsGEkHpFT
+        meta:
+          category: logic
+          description: ''
+          groupId: pXeAuduvCT
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 260
+          'y': 280
+        outputIds:
+          - - BEqvEfSKSZ
+          - - dEk5yXIVuw
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: dEk5yXIVuw
+        meta:
+          category: output
+          description: ''
+          groupId: pXeAuduvCT
+          label: 'Device: State'
+          name: device-state
+          x: 280
+          'y': 460
+        outputIds:
+          - - aB77FF4lI3
+        type: DeviceChangeStateNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+            let time = 1686452400000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: 0ro4mDlvQV
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 260
+          'y': 280
+        outputIds:
+          - - V5NrYFgIMV
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: V5NrYFgIMV
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 260
+          'y': 360
+        outputIds:
+          - - sEEXlViqtY
+          - - PHXw_OJDWC
+        type: LoopNode
+      - config:
+          loopNodeId: V5NrYFgIMV
+          mapValuePath: ''
+          shouldBreak: false
+        id: UTr5IGYKCy
+        meta:
+          category: loop
+          description: ''
+          groupId: V5NrYFgIMV
+          label: Next
+          name: loop-next
+          x: 440
+          'y': 660
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: HtgriXpzS4
+        meta:
+          category: logic
+          description: ''
+          groupId: V5NrYFgIMV
+          label: Delay
+          name: delay
+          x: 360
+          'y': 340
+        outputIds:
+          - - LxjO1SpL4b
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: PHXw_OJDWC
+        meta:
+          category: logic
+          description: ''
+          groupId: V5NrYFgIMV
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 440
+          'y': 260
+        outputIds:
+          - - HtgriXpzS4
+          - - LxjO1SpL4b
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: LxjO1SpL4b
+        meta:
+          category: output
+          description: ''
+          groupId: V5NrYFgIMV
+          label: 'Device: State'
+          name: device-state
+          x: 460
+          'y': 440
+        outputIds:
+          - - UTr5IGYKCy
+        type: DeviceChangeStateNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+
+            let time = 1686970800000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: y5Yea8DT3Q
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 460
+          'y': 280
+        outputIds:
+          - - 35eBMMO2i3
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: 35eBMMO2i3
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 460
+          'y': 360
+        outputIds:
+          - - VxeBB_UNHG
+          - - G2Bb3OtNjj
+        type: LoopNode
+      - config:
+          loopNodeId: 35eBMMO2i3
+          mapValuePath: ''
+          shouldBreak: false
+        id: HswEAFTR3i
+        meta:
+          category: loop
+          description: ''
+          groupId: 35eBMMO2i3
+          label: Next
+          name: loop-next
+          x: 620
+          'y': 640
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: DByTXODfGz
+        meta:
+          category: logic
+          description: ''
+          groupId: 35eBMMO2i3
+          label: Delay
+          name: delay
+          x: 540
+          'y': 320
+        outputIds:
+          - - 67VjAYf2rF
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: G2Bb3OtNjj
+        meta:
+          category: logic
+          description: ''
+          groupId: 35eBMMO2i3
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 620
+          'y': 240
+        outputIds:
+          - - DByTXODfGz
+          - - 67VjAYf2rF
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: 67VjAYf2rF
+        meta:
+          category: output
+          description: ''
+          groupId: 35eBMMO2i3
+          label: 'Device: State'
+          name: device-state
+          x: 640
+          'y': 420
+        outputIds:
+          - - HswEAFTR3i
+        type: DeviceChangeStateNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+            let time = 1687230000000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: MXr3I6vUXT
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 660
+          'y': 280
+        outputIds:
+          - - fffSekrnmk
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: fffSekrnmk
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 660
+          'y': 360
+        outputIds:
+          - - WXclxHeMcD
+          - - 6Ln510fDA4
+        type: LoopNode
+      - config:
+          loopNodeId: fffSekrnmk
+          mapValuePath: ''
+          shouldBreak: false
+        id: 0PUxaQ1Xo6
+        meta:
+          category: loop
+          description: ''
+          groupId: fffSekrnmk
+          label: Next
+          name: loop-next
+          x: 820
+          'y': 620
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: mKfmeSs7Zy
+        meta:
+          category: logic
+          description: ''
+          groupId: fffSekrnmk
+          label: Delay
+          name: delay
+          x: 740
+          'y': 300
+        outputIds:
+          - - k_TUAOGltm
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: 6Ln510fDA4
+        meta:
+          category: logic
+          description: ''
+          groupId: fffSekrnmk
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 820
+          'y': 220
+        outputIds:
+          - - mKfmeSs7Zy
+          - - k_TUAOGltm
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: k_TUAOGltm
+        meta:
+          category: output
+          description: ''
+          groupId: fffSekrnmk
+          label: 'Device: State'
+          name: device-state
+          x: 840
+          'y': 400
+        outputIds:
+          - - 0PUxaQ1Xo6
+        type: DeviceChangeStateNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: 2TcDQZTCGj
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: HYVCsFMk_m
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 60
+          'y': 440
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: sQ0TRmawcr
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: sEEXlViqtY
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 260
+          'y': 440
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: Nzvke96g7R
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: VxeBB_UNHG
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 460
+          'y': 440
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: k3y42K2KeU
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: WXclxHeMcD
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 660
+          'y': 440
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+            let time = 1687489200000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: m_MQWoHA3D
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 60
+          'y': 620
+        outputIds:
+          - - MKH79bm678
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: MKH79bm678
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 60
+          'y': 700
+        outputIds:
+          - - Jfg5uKPU9U
+          - - YQmNHKvZa6
+        type: LoopNode
+      - config:
+          loopNodeId: MKH79bm678
+          mapValuePath: ''
+          shouldBreak: false
+        id: lBJrlKI9nj
+        meta:
+          category: loop
+          description: ''
+          groupId: MKH79bm678
+          label: Next
+          name: loop-next
+          x: 200
+          'y': 940
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: lZs8ddrXy7
+        meta:
+          category: logic
+          description: ''
+          groupId: MKH79bm678
+          label: Delay
+          name: delay
+          x: 120
+          'y': 620
+        outputIds:
+          - - YmovqhSrS9
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: YQmNHKvZa6
+        meta:
+          category: logic
+          description: ''
+          groupId: MKH79bm678
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 200
+          'y': 540
+        outputIds:
+          - - lZs8ddrXy7
+          - - YmovqhSrS9
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: YmovqhSrS9
+        meta:
+          category: output
+          description: ''
+          groupId: MKH79bm678
+          label: 'Device: State'
+          name: device-state
+          x: 220
+          'y': 720
+        outputIds:
+          - - lBJrlKI9nj
+        type: DeviceChangeStateNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: 0jJaXint3o
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: Jfg5uKPU9U
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 60
+          'y': 780
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+            let time = 1687748400000;
+
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: 4LsZzrSeoX
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 260
+          'y': 620
+        outputIds:
+          - - DYrxdNpNRD
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: DYrxdNpNRD
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 260
+          'y': 700
+        outputIds:
+          - - kF3AVuOk8P
+          - - KLYQoYJvuA
+        type: LoopNode
+      - config:
+          loopNodeId: DYrxdNpNRD
+          mapValuePath: ''
+          shouldBreak: false
+        id: oeXnaRgTiW
+        meta:
+          category: loop
+          description: ''
+          groupId: DYrxdNpNRD
+          label: Next
+          name: loop-next
+          x: 400
+          'y': 940
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: wwN7BGsq9U
+        meta:
+          category: logic
+          description: ''
+          groupId: DYrxdNpNRD
+          label: Delay
+          name: delay
+          x: 320
+          'y': 620
+        outputIds:
+          - - BAFiBSu5kO
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: KLYQoYJvuA
+        meta:
+          category: logic
+          description: ''
+          groupId: DYrxdNpNRD
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 400
+          'y': 540
+        outputIds:
+          - - wwN7BGsq9U
+          - - BAFiBSu5kO
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: BAFiBSu5kO
+        meta:
+          category: output
+          description: ''
+          groupId: DYrxdNpNRD
+          label: 'Device: State'
+          name: device-state
+          x: 420
+          'y': 720
+        outputIds:
+          - - oeXnaRgTiW
+        type: DeviceChangeStateNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: 2ONTxY3nJN
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: kF3AVuOk8P
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 260
+          'y': 780
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+            let time = 1688007600000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: tMc8594z9i
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 460
+          'y': 620
+        outputIds:
+          - - nSXOcuGMJ1
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: nSXOcuGMJ1
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 460
+          'y': 700
+        outputIds:
+          - - HfpXC259le
+          - - N1lOwRUfO2
+        type: LoopNode
+      - config:
+          loopNodeId: nSXOcuGMJ1
+          mapValuePath: ''
+          shouldBreak: false
+        id: Yui0zxR6gm
+        meta:
+          category: loop
+          description: ''
+          groupId: nSXOcuGMJ1
+          label: Next
+          name: loop-next
+          x: 600
+          'y': 940
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: bwheatIeh1
+        meta:
+          category: logic
+          description: ''
+          groupId: nSXOcuGMJ1
+          label: Delay
+          name: delay
+          x: 520
+          'y': 620
+        outputIds:
+          - - uaoHscTasm
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: N1lOwRUfO2
+        meta:
+          category: logic
+          description: ''
+          groupId: nSXOcuGMJ1
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 600
+          'y': 540
+        outputIds:
+          - - bwheatIeh1
+          - - uaoHscTasm
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: uaoHscTasm
+        meta:
+          category: output
+          description: ''
+          groupId: nSXOcuGMJ1
+          label: 'Device: State'
+          name: device-state
+          x: 620
+          'y': 720
+        outputIds:
+          - - Yui0zxR6gm
+        type: DeviceChangeStateNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: Md_IGfWk22
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: HfpXC259le
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 460
+          'y': 780
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+            let time = 1688266800000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: 95YL5Y8Y_T
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 660
+          'y': 620
+        outputIds:
+          - - QErfQJnAwh
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: QErfQJnAwh
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 660
+          'y': 700
+        outputIds:
+          - - WZe_1Doe2E
+          - - GXmkJ7Ctqx
+        type: LoopNode
+      - config:
+          loopNodeId: QErfQJnAwh
+          mapValuePath: ''
+          shouldBreak: false
+        id: Jilo7wDYya
+        meta:
+          category: loop
+          description: ''
+          groupId: QErfQJnAwh
+          label: Next
+          name: loop-next
+          x: 800
+          'y': 940
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: 8j56uWusXB
+        meta:
+          category: logic
+          description: ''
+          groupId: QErfQJnAwh
+          label: Delay
+          name: delay
+          x: 720
+          'y': 620
+        outputIds:
+          - - o9bvxXDwh1
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: GXmkJ7Ctqx
+        meta:
+          category: logic
+          description: ''
+          groupId: QErfQJnAwh
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 800
+          'y': 540
+        outputIds:
+          - - 8j56uWusXB
+          - - o9bvxXDwh1
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: o9bvxXDwh1
+        meta:
+          category: output
+          description: ''
+          groupId: QErfQJnAwh
+          label: 'Device: State'
+          name: device-state
+          x: 820
+          'y': 720
+        outputIds:
+          - - Jilo7wDYya
+        type: DeviceChangeStateNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: 7bmz3QOPQI
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: WZe_1Doe2E
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 660
+          'y': 780
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+            let time = 1688526000000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: MkVplgYFSQ
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 60
+          'y': 940
+        outputIds:
+          - - fExjMZVLw7
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: fExjMZVLw7
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 60
+          'y': 1020
+        outputIds:
+          - - 36Tp3rcy4l
+          - - k_1v4vNkIZ
+        type: LoopNode
+      - config:
+          loopNodeId: fExjMZVLw7
+          mapValuePath: ''
+          shouldBreak: false
+        id: WnfDk5TQ3O
+        meta:
+          category: loop
+          description: ''
+          groupId: fExjMZVLw7
+          label: Next
+          name: loop-next
+          x: 180
+          'y': 1240
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: 0eJI_QZvIa
+        meta:
+          category: logic
+          description: ''
+          groupId: fExjMZVLw7
+          label: Delay
+          name: delay
+          x: 100
+          'y': 920
+        outputIds:
+          - - 2OUsoXVL6Q
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: k_1v4vNkIZ
+        meta:
+          category: logic
+          description: ''
+          groupId: fExjMZVLw7
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 180
+          'y': 840
+        outputIds:
+          - - 0eJI_QZvIa
+          - - 2OUsoXVL6Q
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: 2OUsoXVL6Q
+        meta:
+          category: output
+          description: ''
+          groupId: fExjMZVLw7
+          label: 'Device: State'
+          name: device-state
+          x: 200
+          'y': 1020
+        outputIds:
+          - - WnfDk5TQ3O
+        type: DeviceChangeStateNode
+      - config:
+          behavior: immediate
+          flowVersionTemplate: default
+          payloadTemplate: ''
+          payloadTemplateType: json
+          resultPath: ''
+          triggerVirtualButtonId: _9O1iqXFQJ
+          triggerWorkflowId: ~exportplaceholderid-flow-simulator-6~
+        id: 36Tp3rcy4l
+        meta:
+          category: output
+          description: ''
+          label: Workflow
+          name: workflow-trigger
+          x: 60
+          'y': 1100
+        outputIds: []
+        type: WorkflowTriggerNode
+      - config:
+          scopePath: ''
+          script: >-
+            let temp = [16.2, 16.1, 16.0, 16.2, 16.3, 16.5, 16.7, 17.0, 17.3,
+            17.8, 18.2, 18.5, 18.8, 19.0, 19.2, 19.5, 19.7, 20.1, 20.5, 20.8,
+            21.2, 20.7, 20.3, 19.8];
+
+            let humidity = [65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53,
+            52, 51, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+            let soilMoisture = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+            44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55];
+
+            let uvIntense = [0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 50, 60, 70, 80,
+            90, 100, 100, 100, 90, 80, 70, 60, 50, 40];
+
+
+            let prodution = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 16.0, 24.0,
+            32.0, 40.0, 48.0, 56.0, 64.0, 72.0, 80.0, 80.0, 80.0, 72.0, 64.0,
+            56.0, 48.0, 40.0, 32.0]
+
+
+
+            let time = 1688785200000;
+
+
+            let states = [];
+
+
+            let x = 0;
+
+            for (let i = 0; i < 96; i++){
+                if(x >= 23) x = 0;
+
+                let obj = {
+                    "data":{
+                    "airSensor" : temp[x],
+                    "humiditySensor": humidity[x],
+                    "irrigation" : 0,
+                    "lightSensor" : uvIntense[x],
+                    "productivity"  : prodution[x],
+                    "soilMoistureSensor" : soilMoisture[x]
+                    },"time": time
+                };
+                
+                states.push(obj);
+
+                time +=3600000;
+                x++;
+            }
+
+
+            payload.states = states;
+        id: XCcKxBPGpM
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 260
+          'y': 940
+        outputIds:
+          - - BLCQ2TDw7a
+        type: RawFunctionNode
+      - config:
+          currentItemPath: state
+          loopSourcePath: states
+          mapResultPath: ''
+          parallel: false
+        id: BLCQ2TDw7a
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Loop
+          name: loop
+          x: 260
+          'y': 1020
+        outputIds:
+          - - Yv4v1r9mog
+          - - gV6CRH83r_
+        type: LoopNode
+      - config:
+          loopNodeId: BLCQ2TDw7a
+          mapValuePath: ''
+          shouldBreak: false
+        id: EBgDpSYxrQ
+        meta:
+          category: loop
+          description: ''
+          groupId: BLCQ2TDw7a
+          label: Next
+          name: loop-next
+          x: 380
+          'y': 1240
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          delay: '1'
+        id: kpa5b99Lkd
+        meta:
+          category: logic
+          description: ''
+          groupId: BLCQ2TDw7a
+          label: Delay
+          name: delay
+          x: 300
+          'y': 920
+        outputIds:
+          - - pEybMmeclr
+        type: DelayNode
+      - config:
+          ratePerMinute: 120
+          throttleIdTemplate: ~exportplaceholderid-flow-simulator-6~
+          timeSincePath: ''
+        id: gV6CRH83r_
+        meta:
+          category: logic
+          description: ''
+          groupId: BLCQ2TDw7a
+          label: Throttle
+          name: throttle
+          rateUnit: Second
+          rateValue: '2'
+          x: 380
+          'y': 840
+        outputIds:
+          - - kpa5b99Lkd
+          - - pEybMmeclr
+        type: ThrottleNode
+      - config:
+          attrDataMethod: payloadPath
+          attrPayloadPath: state.value.data
+          deviceId: ~exportplaceholderid-device-smartGardenSensor01-0~
+          deviceIdTemplateType: stringTemplate
+          resultPath: working.result
+          timeSourcePath: state.value.time
+          timeSourceType: payloadPath
+        id: pEybMmeclr
+        meta:
+          category: output
+          description: ''
+          groupId: BLCQ2TDw7a
+          label: 'Device: State'
+          name: device-state
+          x: 400
+          'y': 1020
+        outputIds:
+          - - EBgDpSYxrQ
+        type: DeviceChangeStateNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: Yv4v1r9mog
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 280
+          'y': 1100
+        outputIds: []
+        type: DebugNode
+    triggers:
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-8CPs5RA_1XmHkfhblnKeP
+        meta:
+          category: trigger
+          description: ''
+          label: '1'
+          name: virtualButton
+          payload: ''
+          uiId: cXyVAeFLFG
+          x: 60
+          'y': 200
+        outputIds:
+          - - NDoXukAvNE
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-GucSTiNWEa
+        meta:
+          category: trigger
+          description: ''
+          label: '2'
+          name: virtualButton
+          payload: ''
+          uiId: 2TcDQZTCGj
+          x: 260
+          'y': 200
+        outputIds:
+          - - 0ro4mDlvQV
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-dM_G3HvPe0
+        meta:
+          category: trigger
+          description: ''
+          label: '3'
+          name: virtualButton
+          payload: ''
+          uiId: sQ0TRmawcr
+          x: 460
+          'y': 200
+        outputIds:
+          - - y5Yea8DT3Q
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-lV4eKD5jtZ
+        meta:
+          category: trigger
+          description: ''
+          label: '4'
+          name: virtualButton
+          payload: ''
+          uiId: Nzvke96g7R
+          x: 660
+          'y': 200
+        outputIds:
+          - - MXr3I6vUXT
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-4Rf_AvTx5u
+        meta:
+          category: trigger
+          description: ''
+          label: '5'
+          name: virtualButton
+          payload: ''
+          uiId: k3y42K2KeU
+          x: 60
+          'y': 540
+        outputIds:
+          - - m_MQWoHA3D
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-3YGWVwaxG9
+        meta:
+          category: trigger
+          description: ''
+          label: '6'
+          name: virtualButton
+          payload: ''
+          uiId: 0jJaXint3o
+          x: 260
+          'y': 540
+        outputIds:
+          - - 4LsZzrSeoX
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-mGl9xaxh9M
+        meta:
+          category: trigger
+          description: ''
+          label: '7'
+          name: virtualButton
+          payload: ''
+          uiId: 2ONTxY3nJN
+          x: 460
+          'y': 540
+        outputIds:
+          - - tMc8594z9i
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-s_ODsIiVrn
+        meta:
+          category: trigger
+          description: ''
+          label: '8'
+          name: virtualButton
+          payload: ''
+          uiId: Md_IGfWk22
+          x: 660
+          'y': 540
+        outputIds:
+          - - 95YL5Y8Y_T
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-hCFQiqqjEI
+        meta:
+          category: trigger
+          description: ''
+          label: '9'
+          name: virtualButton
+          payload: ''
+          uiId: 7bmz3QOPQI
+          x: 60
+          'y': 860
+        outputIds:
+          - - MkVplgYFSQ
+        type: virtualButton
+      - config: {}
+        key: ~exportplaceholderid-flow-simulator-6~-rDnOcOtjh4
+        meta:
+          category: trigger
+          description: ''
+          label: '10'
+          name: virtualButton
+          payload: ''
+          uiId: _9O1iqXFQJ
+          x: 260
+          'y': 860
+        outputIds:
+          - - XCcKxBPGpM
+        type: virtualButton
+version: 1

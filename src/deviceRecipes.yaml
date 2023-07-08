@@ -1,0 +1,31 @@
+resourceType: DeviceRecipe
+resources:
+  - attributes:
+      - attributeTags: {}
+        dataType: number
+        name: airSensor
+      - attributeTags: {}
+        dataType: number
+        name: humiditySensor
+      - attributeTags: {}
+        dataType: number
+        name: soilMoistureSensor
+      - attributeTags: {}
+        dataType: number
+        name: lightSensor
+      - attributeTags: {}
+        dataType: number
+        name: productivity
+      - attributeTags: {}
+        dataType: number
+        name: irrigation
+    deviceClass: standalone
+    deviceName: Device from recipe smart-garden-sensor
+    id: ~exportplaceholderid-deviceRecipe-smartGardenSensor-0~
+    name: smart-garden-sensor
+    tags:
+      - key: productivity
+        value: '0'
+      - key: userId
+        value: '-'
+version: 1

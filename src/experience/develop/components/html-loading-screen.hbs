@@ -1,0 +1,49 @@
+<style>
+
+  body {
+    overflow: hidden;
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    max-width: 100%;
+    line-height: 1.4;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .loading-animation {
+    width: 35px;
+    height: 35px;
+    border:  5px solid #BDBDBD80;
+    border-left-color: #00a956;
+    border-top-color: #00a956;
+    border-radius: 50%;
+    display: inline-block;
+    animation: rotate 600ms infinite linear;
+  }
+
+  @keyframes rotate {
+    to {
+      transform: rotate(1turn)
+    }
+  }
+</style>
+
+<section class="loading" id="loading-screen">
+  <span class="loading-animation"></span>
+</section>
+
+<script>
+
+  function removeLoading() {
+    document.querySelector('body').style.overflow = 'auto';
+    document.querySelector('#loading-screen').style.display = 'none';
+    document.querySelector('#header')?.classList.add('header');
+  }
+
+</script>

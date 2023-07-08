@@ -1,0 +1,22 @@
+resourceType: ExperienceUser
+resources:
+  - email: equiperocket@gmail.com
+    experienceGroupIds:
+      - ~exportplaceholderid-experienceGroup-administrators-0~
+    firstName: Equipe
+    id: ~exportplaceholderid-experienceUser-equiperocketGmailCom-0~
+    lastName: Rocket
+    userTags: {}
+  - email: pgamer21301@gmail.com
+    experienceGroupIds: []
+    firstName: Leonardo
+    id: ~exportplaceholderid-experienceUser-pgamer21301GmailCom-1~
+    lastName: Pio
+    userTags: {}
+  - email: usuarionovo@gmail.com
+    experienceGroupIds: []
+    firstName: usuario
+    id: ~exportplaceholderid-experienceUser-usuarionovoGmailCom-2~
+    lastName: novo
+    userTags: {}
+version: 1

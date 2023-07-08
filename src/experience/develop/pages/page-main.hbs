@@ -1,0 +1,365 @@
+{{#fillSection "pageName"}} Visão Geral {{/fillSection}}
+{{#fillSection "pageDescription"}} Página Inicial {{/fillSection}}
+
+<style>
+    .card .card-body {
+		padding: 0rem 2.25rem;
+	}
+
+    .progressChart {
+        height: 10rem;
+    }
+
+    .lineChart {
+        height: 20rem;
+    }
+
+    .pieChart {
+		height: 20rem;
+	}
+
+    .barChart {
+        height: 20rem;
+    }
+
+    .tooltip-inner {
+        white-space: pre-wrap;
+        max-width: 40rem;
+        width: 40rem;
+    }
+
+    #goals-list {
+        height: 20rem; 
+        overflow-y: auto;
+    }
+
+    .goals-list {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+
+    .px-9 {
+        padding-right: 1.25rem !important;
+        padding-left: 2.25rem !important;
+    }
+
+    .form-select.form-select-solid {
+        width: 15rem;
+    }
+
+    .fs-2hx {
+        font-size: 2rem!important;
+    }
+</style>
+
+<!-- Page Content -->
+<div class="content d-flex flex-column flex-column-fluid" id="content">
+    <div class="post d-flex flex-column-fluid" id="post">
+        <div id="content_container" class="container-xxl">
+
+            <!-- First Row -->
+            <div class="row" style="height: 10rem">
+
+                <!-- Intensidade da luz UV -->
+                <div class="col-3">
+                    <div class="card card-flush overflow-hidden" style="height: 10rem !important;">
+                        <div class="card-header py-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Intensidade da Luz UV <i class="fas fa-info-circle ttip"></i> </span>
+                                <span class="text-gray-400 mt-1 fw-bold fs-6">Níveis de Exposição à Luz UV</span>
+                            </h3>
+                        </div>
+
+                        <div class="card-body d-flex justify-content-between flex-column pb-1 px-0 mt-2" style="height: 14rem; margin-left: 2.2rem;">
+                            <div class="d-flex align-items-center mb-2">          
+                                <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="lblUvLight">5,70 UVI</span>
+                                <span class="badge badge-light-danger fs-base ms-1">
+                                    <i class="fa-solid fa-arrow-down fs-5 text-danger ms-n1 me-1">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    8.02%
+                                </span>                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperatura do ar -->
+                <div class="col-3">
+                    <div class="card card-flush overflow-hidden" style="height: 10rem !important;">
+                        <div class="card-header py-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Temperatura do Ar <i class="fas fa-info-circle ttip"></i> </span>
+                                <span class="text-gray-400 mt-1 fw-bold fs-6">Acompanhando as Variações Térmicas</span>
+                            </h3>
+                            <div class="card-toolbar">
+								<div class="fw-bolder fs-3 text-dark" id="value-overall"></div>
+                            </div>
+                        </div>
+
+                        <div class="card-body d-flex justify-content-between flex-column pb-1 px-0 mt-2" style="height: 14rem; margin-left: 2.2rem;">
+                            <div class="d-flex align-items-center mb-2">          
+                                <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="lblAirTemperature">22,15 °C</span>
+                                <span class="badge badge-light-success fs-base ms-1">
+                                    <i class="fa-solid fa-arrow-up fs-5 text-success ms-n1 me-1">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    2.35%
+                                </span>                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Umidade do solo -->
+                <div class="col-3">
+                    <div class="card card-flush overflow-hidden" style="height: 10rem !important;">
+                        <div class="card-header py-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Umidade do Solo <i class="fas fa-info-circle ttip"></i> </span>
+                                <span class="text-gray-400 mt-1 fw-bold fs-6">Medições da Hidratação do Solo</span>
+                            </h3>
+                            <div class="card-toolbar">
+								<div class="fw-bolder fs-3 text-dark" id="value-labor"></div>
+                            </div>
+                        </div>
+
+                        <div class="card-body d-flex justify-content-between flex-column pb-1 px-0 mt-2" style="height: 14rem; margin-left: 2.2rem;">
+                            <div class="d-flex align-items-center mb-2">          
+                                <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="lblUmidity">75,37 %</span>
+                                <span class="badge badge-light-danger fs-base ms-1">
+                                    <i class="fa-solid fa-arrow-down fs-5 text-danger ms-n1 me-1">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    3.02%
+                                </span>                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Umidade do ar -->
+                <div class="col-3">
+                    <div class="card card-flush overflow-hidden" style="height: 10rem !important;">
+                        <div class="card-header py-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Umidade do Ar <i class="fas fa-info-circle ttip"></i> </span>
+                                <span class="text-gray-400 mt-1 fw-bold fs-6">Registro da Umidade Relativa do Ar</span>
+                            </h3>
+                            <div class="card-toolbar">
+								<div class="fw-bolder fs-3 text-dark" id="value-effectiveness"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body d-flex justify-content-between flex-column pb-1 px-0 mt-2" style="height: 14rem; margin-left: 2.2rem;">
+                            <div class="d-flex align-items-center mb-2">          
+                                <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="lblAirUmidity">47,80 %</span>
+                                <span class="badge badge-light-success fs-base ms-1">
+                                    <i class="fa-solid fa-arrow-up fs-5 text-success ms-n1 me-1">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    4.74%
+                                </span>                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row -->
+            <div class="row mt-5">
+
+                <!-- Temperatura e umidade do ar -->
+                <div class="col-6">
+                    <div class="card card-xl-stretch mb-xl-8 h-100">
+                        <div class="card-header border-0">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Umidade do Ar <i class="fas fa-info-circle ttip" title=""></i> </span>
+                            </h3>
+                        </div>
+                        <div class="card-body pt-2">
+                            <div class="chart lineChart" id="firstChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intensidade da luz UV -->
+                <div class="col-6">
+                    <div class="card card-flush overflow-hidden h-md-100">
+                        <div class="card-header py-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Intensidade da Luz UV <i class="fas fa-info-circle ttip"></i> </span>
+                            </h3>
+                        </div>
+                        <div class="card-body pt-2">
+                            <div class="chart lineChart" id="secondChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Third Row -->
+            <div class="row mt-5">
+
+                <!-- Produtividade -->
+                <div class="col-6">
+                    <div class="card card-flush overflow-hidden h-md-100">
+                        <div class="card-header py-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Produtividade <i class="fas fa-info-circle ttip"></i> </span>
+                            </h3>
+                            <div class="card-toolbar">
+                                <button class="btn btn-sm btn-light btn-active-primary d-none" id="btn-reset-chart"> <i class="fas fa-redo"></i> Redefinir </button>
+                            </div>
+                        </div>
+                        <div class="card-body pt-2">
+                            <div class="chart lineChart" id="thirdChart" style="margin-bottom: 2rem;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Irrigação -->
+                <div class="col-6">
+                    <div class="card card-flush overflow-hidden h-md-100">
+                        <div class="card-header py-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Irrigação <i class="fas fa-info-circle ttip"></i> </span>
+                            </h3>
+                            <div class="card-toolbar">
+                                <button class="btn btn-sm btn-light btn-active-primary d-none" id="btn-reset-chart"> <i class="fas fa-redo"></i> Redefinir </button>
+                            </div>
+                        </div>
+                        <div class="card-body pt-2">
+                            <div class="chart lineChart" id="fourtyChart" style="margin-bottom: 2rem;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const { Line } = G2Plot;
+
+    $(document).ready(() => {
+        $('.ttip').tooltip({html: true, placement: 'bottom'});
+
+        let body = [{
+            "attributes": ["airSensor", "humiditySensor", "soilMoistureSensor", "lightSensor", "irrigation", "productivity"],
+            "aggregation": "LAST",
+            "resolution": 3600000,
+            "start": 1686106800000
+        }];
+
+        $.ajax({
+            type: 'POST',
+            url: `/data/~exportplaceholderid-device-smartGardenSensor01-0~`,
+            contentType: 'application/json',
+            data: JSON.stringify(body),
+            error: (err) => {
+                console.log(err);
+            },
+            success: (data) => {
+                let points = data?.[0]?.points;
+
+                let airSensorData = points.map(val => { return { date: val.time, value: val.data?.airSensor ? val.data?.airSensor : null } });
+                let lightSensorData = points.map(val => { return { date: val.time, value: val.data?.lightSensor ? val.data?.lightSensor : null } });
+                let productivityData = points.map(val => { return { date: val.time, value: val.data?.productivity ? val.data?.productivity : null } });
+                let irrigationData = points.map(val => { return { date: val.time, value: val.data?.irrigation ? val.data?.irrigation : null } });
+
+                drawLineChart('firstChart', airSensorData);
+                drawLineChart('secondChart', lightSensorData);
+                drawLineChart('thirdChart', productivityData);
+                drawLineChart('fourtyChart', irrigationData);
+
+                $('#lblUvLight').text(`${airSensorData[airSensorData.length - 1]?.value ? airSensorData[airSensorData.length - 1]?.value : 0} %`);
+                $('#lblAirTemperature').text(`${lightSensorData[lightSensorData.length - 1]?.value ? lightSensorData[lightSensorData.length - 1]?.value : 0} °C`);
+                $('#lblUmidity').text(`${productivityData[productivityData.length - 1]?.value ? productivityData[productivityData.length - 1]?.value : 0} %`);
+                $('#lblAirUmidity').text(`${irrigationData[irrigationData.length - 1]?.value ? irrigationData[irrigationData.length - 1]?.value : 0} %`);
+
+            }
+        });
+
+    });
+
+    function drawLineChart(container, data) {
+        
+        var startDate = new Date(2023, 4, 1);
+        var endDate = new Date(2023, 4, 30);
+
+        //data = generateRandomData(startDate, endDate);
+
+        const line = new Line(container, {
+            data,
+            padding: 'auto',
+            xField: 'date',
+            yField: 'value',
+            color: '#2D9F60',
+            animation: false,
+            xAxis: {
+                tickCount: 5,
+                label: {
+                    formatter: (val) => {
+                        if (!isNaN(val) && val <= 10000000000) {
+                            return `${val}`;
+                        } else {
+                            return new Date(val).toLocaleDateString('pt-BR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                        }
+                    },
+                },
+            },
+            yAxis: {
+                max: 100,
+            },
+            tooltip: {
+                title: (value) => {
+                    if (!isNaN(value) && value <= 10000000000) {
+                        return `${value}`;
+                    } else {
+                        return new Date(value).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                    }
+                },
+                formatter: (item) => {
+                    return {
+                        name: 'Valor',
+                        value: item?.value ? item?.value : 0,
+                    }
+                },
+            },
+            smooth: true,
+        });
+
+        line.render();
+
+    }
+
+    function generateRandomData(startDate, endDate) {
+        var data = [];
+        var startTime = startDate.getTime();
+        var endTime = endDate.getTime();
+
+        while (startTime <= endTime) {
+            var entry = {
+            time: new Date(startTime).toLocaleDateString(),
+            value: Math.floor(Math.random() * (40 - 20 + 1)) + 20
+            };
+            
+            data.push(entry);
+            startTime += 86400000;
+        }
+        
+        return data;
+    }
+
+</script>

@@ -1,0 +1,61 @@
+resourceType: ExperienceFlowVersion
+resources:
+  - description: Created for Endpoint GET /manage
+    enabled: true
+    flowId: ~exportplaceholderid-flow-getManage-2~
+    globals: []
+    id: ~exportplaceholderid-flowVersion-getManage-2~
+    name: GET /manage
+    nodes:
+      - config:
+          bodyTemplate: "{\n\t\"myCustomData\": \"Add custom data here\"\n}"
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: 64a236a61e369b6116ab4e91
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+        id: fPrr0QyYPs
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 40
+          'y': 140
+        outputIds:
+          - - p4dpza8f9z
+        type: EndpointReplyNode
+      - config:
+          message: ''
+          property: ''
+        id: p4dpza8f9z
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 40
+          'y': 240
+        outputIds: []
+        type: DebugNode
+    triggers:
+      - config: {}
+        key: 64a236a61e369b6116ab4e93
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage
+          name: endpoint
+          uiId: cLd0CrYTWU
+          x: 40
+          'y': 40
+        outputIds:
+          - - fPrr0QyYPs
+        type: endpoint
+    version: develop
+version: 1

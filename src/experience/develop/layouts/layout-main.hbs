@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<title>Smart Garden | {{section 'pageName'}}</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="DSD - Description" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Cache-control" content="public">
+	<link rel="shortcut icon" href="{{file '/images/favicon.ico'}}" />
+
+	<!-- Global Stylesheets (Used by all pages)-->
+	<link href="https://~exportplaceholderid-files-domain~/6258a66807324c9d8b7be73f/scripts/plugins.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="https://~exportplaceholderid-files-domain~/6258a66807324c9d8b7be73f/style/style.bundle.css" rel="stylesheet" type="text/css" />
+
+	<!-- Global Javascript Bundle (Used by all pages) -->
+	<script src="https://~exportplaceholderid-files-domain~/6258a66807324c9d8b7be73f/scripts/plugins.bundle.js"></script>
+	<script src="https://~exportplaceholderid-files-domain~/6258a66807324c9d8b7be73f/scripts/scripts.bundle.js"></script>
+
+	<!-- AntV Imports -->
+	<script src="https://~exportplaceholderid-files-domain~/6258a66807324c9d8b7be73f/scripts/g2plot.min.js"></script>
+	<script src="https://~exportplaceholderid-files-domain~/6258a66807324c9d8b7be73f/scripts/g2.min.js"></script>
+
+	<!-- Fontawesome and Fonts -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
+	<!-- Scripts -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+
+	<!-- Bootstrap Table -->
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table.min.css">
+	<script src="https://unpkg.com/bootstrap-table@1.22.0/dist/bootstrap-table.min.js"></script>
+
+	<!-- SerializeJSON and Pwstrength -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pwstrength-bootstrap/3.1.1/pwstrength-bootstrap.min.js"></script>
+
+
+</head>
+
+<style>
+	.menu-title {
+		font-weight: 400;
+	}
+
+	.menu-subtitle {
+		font-weight: 500;
+	}
+
+	.select2-container--bootstrap5 .select2-dropdown .select2-results__option {
+		padding: 0.75rem;
+	}
+
+	@media (min-width: 992px) {
+		.aside {
+			box-shadow: 0 0 2px #f3f3f3 !important;
+		}
+
+		.header {
+			border-bottom: 1px solid #E9E9E9 !important;
+		}
+
+		.header .header-brand {
+			border-bottom: 1px solid #E9E9E9 !important;
+		}
+	}
+</style>
+
+<body id="body" class="header-tablet-and-mobile-fixed aside-enabled" data-aside-minimize="on">
+
+	{{component "html-loading-screen"}}
+
+	<div class="d-flex flex-column flex-root">
+		<div class="page d-flex flex-row flex-column-fluid">
+			<div id="aside" class="aside" data-drawer="true" data-drawer-name="aside">
+
+				<!-- Side Menu -->
+				<div class="aside-menu flex-column-fluid">
+					<div class="hover-scroll-overlay-y px-2 my-5 my-lg-5" id="aside_menu_wrapper" data-scroll="true"
+						data-scroll-height="auto"
+						data-scroll-dependencies="{default: '#aside_toolbar, #aside_footer', lg: '#header, #aside_toolbar, #aside_footer'}"
+						data-scroll-wrappers="#aside_menu" data-scroll-offset="5px">
+						<div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							id="#aside_menu" data-menu="true">
+
+							<!-- Items title -->
+							<div class="menu-item">
+								<div class="menu-content pt-8 pb-2">
+									<span class="menu-section text-muted text-uppercase fs-8 ls-1 menu-subtitle">Início</span>
+								</div>
+							</div>
+
+							<!-- Items -->
+							<div data-menu-trigger="click" class="menu-item menu-accordion">
+
+								<div class="menu-item">
+									<a class="menu-link" href="/">
+										<span class="menu-icon">
+											<i class="fas fa-home" style="font-size: 15px;"></i>
+										</span>
+										<span class="menu-title">Página Inicial</span>
+									</a>
+								</div>
+
+								<div class="menu-item">
+									<a class="menu-link" href="/manage/devices">
+										<span class="menu-icon">
+											<i class="fa-sharp fa-solid fa-desktop" style="font-size: 15px;"></i>
+										</span>
+										<span class="menu-title">Dispositivos</span>
+
+										
+									</a>
+								</div>
+
+
+
+								<div class="menu-item">
+									<a class="menu-link" href="/events">
+										<span class="menu-icon">
+											<i class="fas fa-exclamation-triangle" style="font-size: 15px;"></i>
+										</span>
+										<span class="menu-title">Alarmes</span>
+									</a>
+								</div>
+
+							</div>
+
+							{{#eq experience.user.experienceGroups.[0].name "ADMINISTRATORS"}}
+								
+								<!-- Items title -->
+								<div class="menu-item">
+									<div class="menu-content pt-8 pb-2">
+										<span class="menu-section text-muted text-uppercase fs-8 ls-1 menu-subtitle">Administração</span>
+									</div>
+								</div>
+
+								<!-- Items -->
+								<div data-menu-trigger="click" class="menu-item menu-accordion">
+
+									<div class="menu-item">
+									<a class="menu-link" href="/manage/users">
+										<span class="menu-icon">
+											<i class="fa-solid fa-users" style="font-size: 15px;"></i>
+										</span>
+										<span class="menu-title">Usuários</span>
+
+										
+									</a>
+								</div>
+
+								</div>
+
+							{{/eq}}
+
+							<!-- Items -->
+							<div data-menu-trigger="click" class="menu-item menu-accordion" style="position: absolute; bottom: 0px;">
+
+								<div class="menu-item">
+									<!--<a class="menu-link" href="">-->
+										<span class="menu-icon">
+											<i class="fa-solid fa-code"></i>
+										</span>
+										<span class="menu-title">Atualizações v2.0.0</span>
+									<!--</a>-->
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- Side Menu - Footer 
+				/*<div class="aside-footer flex-column-auto py-5" id="aside_footer">
+					<a href="" class="btn btn-primary w-100" style="background-color: #3F4254;">
+						<span class="btn-label">Documentos</span>
+					</a>
+				</div>-->
+			</div>
+
+			<!-- Top Menu -->
+			<div class="wrapper d-flex flex-column flex-row-fluid" id="wrapper">
+				<div id="header" class="align-items-stretch">
+
+					<div class="header-brand">
+
+						<a href="/" id="menu-logo"
+							style="padding-left: 1.8rem; margin-right: 1.5rem; color: #3F4254 !important; font-size: 1.3rem; font-weight: 500; line-height: 1.2;">
+							<img alt="Logo" src="https://~exportplaceholderid-files-domain~/61393a3a1bf26100086c1005/images/logo-final.png" style="height: 70px;">
+						</a>
+
+						<div id="aside_toggle" class="btn btn-icon w-auto btn-active-color-primary aside-minimize"
+							data-toggle="true" data-toggle-state="active" data-toggle-target="body"
+							data-toggle-name="aside-minimize">
+
+							<span class="minimize-default">
+								<i class="fa-solid fa-bars-staggered" style="color: #181C32; font-size: 18px;"></i>
+							</span>
+
+							<span class="minimize-active">
+								<i class="fa-solid fa-bars" style="color: #181C32; font-size: 18px;"></i>
+							</span>
+						</div>
+
+					</div>
+
+					<!-- Toolbar -->
+					<div class="toolbar d-flex align-items-stretch">
+						<hr style="margin: 1rem 0; width: 1px; height: 46px; background-color: #A5A5A5;" />
+						<div
+							class="container-fluid py-6 py-lg-0 d-flex flex-column flex-lg-row align-items-lg-stretch justify-content-lg-between">
+
+							<!-- Page Title -->
+							<div class="page-title d-flex justify-content-center flex-column me-5">
+
+								<h1 class="d-flex flex-column text-dark fw-bolder fs-3 mb-0">{{section 'pageName'}}</h1>
+
+								<ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 pt-1">
+									<li class="breadcrumb-item text-muted" id="lastDataUpdate">
+										Última atualização: 15/05/2023 08:00
+									</li>
+								</ul>
+
+							</div>
+
+							<!-- User Details -->
+							<div class="d-flex align-items-stretch overflow-auto pt-3 pt-lg-0">
+
+								<div class="d-flex align-items-center ms-lg-5" id="header_user_menu_toggle">
+
+									<div class="btn btn-active-light d-flex align-items-center bg-hover-light py-2 px-2 px-md-3"
+										data-menu-trigger="click" data-menu-attach="parent"
+										data-menu-placement="bottom-end">
+
+										<div
+											class="d-none d-md-flex flex-column align-items-end justify-content-center me-5">
+											<span class="text-muted fs-7 fw-bold lh-1 mb-2">Bem-vindo</span>
+											<span class="text-dark fs-base fw-bolder lh-1">{{experience.user.firstName}} {{experience.user.lastName}}</span>
+										</div>
+
+										<div class="symbol symbol-30px symbol-md-40px">
+											<img src="https://ui-avatars.com/api/?name={{experience.user.firstName}}&size=40&bold=true&format=svg&background=00AB68&color=FFFFFF" alt="image">
+										</div>
+
+									</div>
+
+									<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px"
+										data-menu="true">
+
+										<div class="menu-item px-3" onclick="editUser('${row.id}')">
+											<div class="menu-content d-flex align-items-center px-3">
+
+												<div class="symbol symbol-50px me-5">
+													<img src="https://ui-avatars.com/api/?name={{experience.user.firstName}}&size=50&bold=true&format=svg&background=00AB68&color=FFFFFF" alt="image">
+												</div>
+
+												<div class="d-flex flex-column">
+													<div class="fw-bolder d-flex align-items-center fs-5">
+														<span>{{experience.user.firstName}} {{experience.user.lastName}}</span>
+														{{#eq experience.user.experienceGroups.[0].name "ADMINISTRATORS"}}
+															<span class="badge rounded-pill bg-success ml-auto" style="margin-left: auto;">ADMIN</span>
+														{{/eq}}
+													</div>
+													<label class="fw-bold text-muted fs-7">{{experience.user.email}}</label>
+												</div>
+
+											</div>
+										</div>
+
+										<!-- Menu Separator -->
+										<div class="separator my-2"></div>
+
+										<!-- Menu Item -->
+										<!-- <div class="menu-item px-5 my-1">
+											<a href="/settings" class="menu-link px-5">Configurações</a>
+										</div> -->
+
+										<!-- Menu Item -->
+										<div class="menu-item px-5" data-menu-trigger="hover"
+											data-menu-placement="left-start">
+											<a href="" class="menu-link px-5">
+												<span class="menu-title position-relative">Idioma
+													<span class="fs-8 rounded px-3 py-2 position-absolute translate-middle-y top-50 end-0">Português</span>
+												</span>
+											</a>
+										</div>
+
+										<!-- Menu Item -->
+										<div class="menu-item px-5">
+											<a href="/logout" class="menu-link px-5">Sair</a>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="content d-flex flex-column flex-column-fluid" id="content">
+					<div class="post d-flex flex-column-fluid" id="post">
+						<div id="content_container" class="container-xxl d-none">
+
+							{{page}}
+
+						</div>
+					</div>
+				</div>
+
+				<!-- Footer -->
+				<div class="footer py-4 d-flex flex-lg-column" id="footer">
+					<div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-center">
+						<div class="text-dark order-2 order-md-1" id="content_footer">
+							
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Scrolltop -->
+	<div id="scrolltop" class="scrolltop" data-scrolltop="true">
+		<i class="fa-solid fa-arrow-up"></i>
+	</div>
+
+</body>
+
+{{component 'html-modals'}}
+
+<script>
+
+  window.addEventListener('load', function() {
+    setTimeout(() => {
+      	removeLoading();
+		$('#aside_menu_wrapper').attr('style', 'height: 60rem;');
+		$('#content_container').removeClass('d-none');
+
+    	$('#content_footer').empty().removeClass('d-none');
+    	$('#content_footer').append(`${new Date().getFullYear()} © Direitos Reservados - <small>({{experience.version}})</small>`);
+    }, 1000);
+  });
+
+	function editUser(userId) {
+
+		$.ajax({
+		type: 'GET',
+		url: `/manage/user/edit?id={{experience.user.id}}`,
+		contentType: 'application/json',
+		error: (err) => {
+			// Tratar erro, se necessário
+		},
+		success: (data) => {
+			let userInfo = JSON.parse(JSON.stringify(data));
+			teste(userInfo);
+		}
+		});
+    }
+
+	function teste(userInfo){
+
+		let fullNameArray = userInfo?.name?.split(' ');;
+		console.log(userInfo);
+
+        $('#newUserForm').attr('method', 'PATCH');
+
+        $('#newUserModal').modal('show');
+
+		$('input[name="firstName"]').val(userInfo.firstName);
+		$('input[name="lastName"]').val(userInfo.lastName);
+		$('input[name="email"]').val(userInfo.email);
+		$('input[name="password"]').val('');
+		$('input[name="location"]').val(userInfo.location);
+		$('input[name="cpf"]').val(userInfo.cpf);
+		$('input[name="phone"]').val(userInfo.phone);
+		$('input[name="userId"]').val(userInfo.userId);
+	}
+
+</script>
+
+</html>

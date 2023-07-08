@@ -1,0 +1,153 @@
+resourceType: DeviceTree
+resources:
+  - attributes:
+      - attributeTags: {}
+        dataType: number
+        name: airSensor
+      - attributeTags: {}
+        dataType: number
+        name: humiditySensor
+      - attributeTags: {}
+        dataType: number
+        name: soilMoistureSensor
+      - attributeTags: {}
+        dataType: number
+        name: lightSensor
+      - attributeTags: {}
+        dataType: number
+        name: productivity
+      - attributeTags: {}
+        dataType: number
+        name: irrigation
+    children: []
+    deviceClass: standalone
+    id: ~exportplaceholderid-device-exemploDeCadasto-4~
+    name: Exemplo de cadasto
+    tags:
+      - key: userId
+        value: ~exportplaceholderid-experienceUser-equiperocketGmailCom-0~
+      - key: productivity
+        value: '0'
+      - key: DeviceRecipe
+        value: smart-garden-sensor
+  - attributes:
+      - attributeTags: {}
+        dataType: number
+        name: airSensor
+      - attributeTags: {}
+        dataType: number
+        name: humiditySensor
+      - attributeTags: {}
+        dataType: number
+        name: soilMoistureSensor
+      - attributeTags: {}
+        dataType: number
+        name: lightSensor
+      - attributeTags: {}
+        dataType: number
+        name: productivity
+      - attributeTags: {}
+        dataType: number
+        name: irrigation
+    children: []
+    deviceClass: standalone
+    id: ~exportplaceholderid-device-smartGardenSensor01-0~
+    name: Smart Garden - Sensor 01
+    tags:
+      - key: productivity
+        value: '80'
+      - key: userId
+        value: ~exportplaceholderid-experienceUser-equiperocketGmailCom-0~
+      - key: DeviceRecipe
+        value: smart-garden-sensor
+  - attributes:
+      - attributeTags: {}
+        dataType: number
+        name: airSensor
+      - attributeTags: {}
+        dataType: number
+        name: humiditySensor
+      - attributeTags: {}
+        dataType: number
+        name: soilMoistureSensor
+      - attributeTags: {}
+        dataType: number
+        name: lightSensor
+      - attributeTags: {}
+        dataType: number
+        name: productivity
+      - attributeTags: {}
+        dataType: number
+        name: irrigation
+    children: []
+    deviceClass: standalone
+    id: ~exportplaceholderid-device-smartGardenSensor02-1~
+    name: Smart Garden - Sensor 02
+    tags:
+      - key: productivity
+        value: '0'
+      - key: userId
+        value: ~exportplaceholderid-experienceUser-equiperocketGmailCom-0~
+      - key: DeviceRecipe
+        value: smart-garden-sensor
+  - attributes:
+      - attributeTags: {}
+        dataType: number
+        name: airSensor
+      - attributeTags: {}
+        dataType: number
+        name: humiditySensor
+      - attributeTags: {}
+        dataType: number
+        name: soilMoistureSensor
+      - attributeTags: {}
+        dataType: number
+        name: lightSensor
+      - attributeTags: {}
+        dataType: number
+        name: productivity
+      - attributeTags: {}
+        dataType: number
+        name: irrigation
+    children: []
+    deviceClass: standalone
+    id: ~exportplaceholderid-device-smartGardenSensor03-2~
+    name: Smart Garden - Sensor 03
+    tags:
+      - key: productivity
+        value: '0'
+      - key: userId
+        value: ~exportplaceholderid-experienceUser-equiperocketGmailCom-0~
+      - key: DeviceRecipe
+        value: smart-garden-sensor
+  - attributes:
+      - attributeTags: {}
+        dataType: number
+        name: airSensor
+      - attributeTags: {}
+        dataType: number
+        name: humiditySensor
+      - attributeTags: {}
+        dataType: number
+        name: soilMoistureSensor
+      - attributeTags: {}
+        dataType: number
+        name: lightSensor
+      - attributeTags: {}
+        dataType: number
+        name: productivity
+      - attributeTags: {}
+        dataType: number
+        name: irrigation
+    children: []
+    deviceClass: standalone
+    id: ~exportplaceholderid-device-testeGuiwitEdit-3~
+    name: teste guiwit edit
+    tags:
+      - key: userId
+        value: ~exportplaceholderid-device-testeGuiwitEdit-3~
+      - key: productivity
+        value: '0'
+      - key: DeviceRecipe
+        value: smart-garden-sensor
+version: 1

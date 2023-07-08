@@ -1,0 +1,15 @@
+resourceType: ExperienceView
+resources:
+  - id: ~exportplaceholderid-experienceView-layoutLogin-1~
+    localFilename: ./layout-login.hbs
+    name: layout-login
+    version: develop
+    viewTags: {}
+    viewType: layout
+  - id: ~exportplaceholderid-experienceView-layoutMain-4~
+    localFilename: ./layout-main.hbs
+    name: layout-main
+    version: develop
+    viewTags: {}
+    viewType: layout
+version: 1

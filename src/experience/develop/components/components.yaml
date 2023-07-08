@@ -1,0 +1,21 @@
+resourceType: ExperienceView
+resources:
+  - id: ~exportplaceholderid-experienceView-cssLogin-2~
+    localFilename: ./css-login.hbs
+    name: css-login
+    version: develop
+    viewTags: {}
+    viewType: component
+  - id: ~exportplaceholderid-experienceView-htmlLoadingScreen-3~
+    localFilename: ./html-loading-screen.hbs
+    name: html-loading-screen
+    version: develop
+    viewTags: {}
+    viewType: component
+  - id: ~exportplaceholderid-experienceView-htmlModals-10~
+    localFilename: ./html-modals.hbs
+    name: html-modals
+    version: develop
+    viewTags: {}
+    viewType: component
+version: 1

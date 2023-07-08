@@ -1,0 +1,103 @@
+resourceType: ExperienceFlowVersion
+resources:
+  - description: Created for Endpoint GET /events
+    enabled: true
+    flowId: ~exportplaceholderid-flow-getEvents-4~
+    globals: []
+    id: ~exportplaceholderid-flowVersion-getEvents-4~
+    name: GET /events
+    nodes:
+      - config:
+          bodyTemplate: '{{working}}'
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ~exportplaceholderid-experienceView-pageEvents-8~
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: RAueX2dssP
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 40
+          'y': 200
+        outputIds:
+          - - 11nR8VzeYF
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: 11nR8VzeYF
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 40
+          'y': 280
+        outputIds: []
+        type: DebugNode
+      - config:
+          findMetadata: false
+          findMultiple: true
+          queryTemplate: |-
+            {
+              "$or": [
+                {
+                  "state": {
+                    "$eq": "new"
+                  }
+                },
+                {
+                  "state": {
+                    "$eq": "acknowledged"
+                  }
+                },
+                {
+                  "state": {
+                    "$eq": "resolved"
+                  }
+                }
+              ]
+            }
+          resultPath: working.result
+          resultsPage: ''
+          resultsPerPage: ''
+          sortDirection: desc
+          sortField: creationDate
+        id: A5K7vRlrJz
+        meta:
+          category: data
+          description: ''
+          label: 'Event: Get'
+          mode: queryTemplateMultiple
+          name: get-event
+          x: 40
+          'y': 120
+        outputIds:
+          - - RAueX2dssP
+        type: GetEventNode
+    triggers:
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getEvents-6~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /events
+          name: endpoint
+          uiId: 5cCDjnqHzR
+          x: 40
+          'y': 40
+        outputIds:
+          - - A5K7vRlrJz
+        type: endpoint
+    version: develop
+version: 1

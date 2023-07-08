@@ -1,0 +1,10 @@
+resourceType: Application
+resources:
+  - blobUrlTTL: 86400
+    description: ''
+    filesPath: ./files
+    globals: []
+    id: ~exportplaceholderid-application-smartGardenPrd-0~
+    name: Smart Garden - PRD
+    readmePath: ./README.md
+version: 1

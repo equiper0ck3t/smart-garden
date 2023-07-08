@@ -1,0 +1,489 @@
+resourceType: ExperienceFlowVersion
+resources:
+  - description: Created for Endpoint GET /manage/users
+    enabled: true
+    flowId: ~exportplaceholderid-flow-getManageUsers-5~
+    globals: []
+    id: ~exportplaceholderid-flowVersion-getManageUsers-5~
+    name: GET /manage/users
+    nodes:
+      - config:
+          bodyTemplate: '{{working.result}}'
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ~exportplaceholderid-experienceView-pageUsers-9~
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: P7jlI__JVD
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 40
+          'y': 440
+        outputIds:
+          - - 3XUqU6DN9N
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: 3XUqU6DN9N
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 40
+          'y': 520
+        outputIds: []
+        type: DebugNode
+      - config:
+          action: get
+          params:
+            - name: sortField
+              type: string
+              value: email
+            - name: sortDirection
+              type: string
+              value: asc
+            - name: page
+              type: string
+              value: '0'
+            - name: perPage
+              type: string
+              value: '100'
+            - name: filterField
+              type: string
+              value: ''
+            - name: filter
+              type: string
+              value: ''
+            - name: experienceGroupId
+              type: string
+              value: ''
+            - name: includeAncestorGroups
+              type: string
+              value: ''
+          resource: experienceUsers
+          responsePath: working
+        id: U_o2ML5u5F
+        meta:
+          category: data
+          description: ''
+          label: 'Users: get'
+          name: losantapi
+          x: 40
+          'y': 120
+        outputIds:
+          - - 1GNOGM69Nq
+        type: LosantApiNode
+      - config:
+          scopePath: working.result.items
+          script: |-
+            for(let i in payload){
+                let obj = {};
+                obj["id"] =  payload[i]["id"]
+                obj["name"] = payload[i]["firstName"] + " " + payload[i]["lastName"];
+                obj["email"] = payload[i]["email"];
+                obj["type"] = (payload[i].experienceGroups.length > 0) ? "ADMIN" : "USUÁRIO";
+                obj["tags"] = payload[i].userTags;
+
+                payload[i] = obj;
+            }
+        id: d1r4_5N6C9
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 40
+          'y': 280
+        outputIds:
+          - - eP521byVUm
+        type: RawFunctionNode
+      - config:
+          rules:
+            - destination: working.result
+              type: set
+              valueTemplate: '{{working.result.items}}'
+              valueTemplateType: json
+        id: eP521byVUm
+        meta:
+          category: logic
+          description: ''
+          label: Mutate
+          name: mutate
+          x: 40
+          'y': 360
+        outputIds:
+          - - P7jlI__JVD
+        type: MutateNode
+      - config:
+          bodyTemplate: '{{working.result}}'
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ~exportplaceholderid-experienceView-pageUsers-9~
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: rrP5oIWZhi
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 480
+          'y': 200
+        outputIds:
+          - - 6Tcu9C9ndg
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: 6Tcu9C9ndg
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 480
+          'y': 280
+        outputIds: []
+        type: DebugNode
+      - config:
+          dataMethod: individualFields
+          emailTemplate: '{{data.query.email}}'
+          firstNameTemplate: '{{data.query.firstName}}'
+          groupIdTemplates: []
+          lastNameTemplate: '{{data.query.lastName}}'
+          passwordTemplate: '{{data.query.password}}'
+          resultPath: working.result
+          userTags:
+            - keyTemplate: cpf
+              valueTemplate: '{{data.query.cpf}}'
+            - keyTemplate: location
+              valueTemplate: '{{data.query.location}}'
+            - keyTemplate: phone
+              valueTemplate: '{{data.query.phone}}'
+        id: C57kYpDX9z
+        meta:
+          category: experience
+          description: ''
+          label: 'User: Create'
+          name: create-experience-user
+          x: 480
+          'y': 120
+        outputIds:
+          - - rrP5oIWZhi
+        type: CreateExperienceUserNode
+      - config:
+          bodyTemplate: '{{working.result}}'
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ~exportplaceholderid-experienceView-pageUsers-9~
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: Qa60zryVCV
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 680
+          'y': 200
+        outputIds:
+          - - AqSA19rXUg
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: AqSA19rXUg
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 680
+          'y': 280
+        outputIds: []
+        type: DebugNode
+      - config:
+          dataMethod: individualFields
+          emailOrIdTemplate: '{{data.query.id}}'
+          emailTemplate: '{{data.query.email}}'
+          firstNameTemplate: '{{data.query.firstName}}'
+          groupIdTemplates: ''
+          invalidateExistingTokens: false
+          lastNameTemplate: '{{data.query.lastName}}'
+          passwordTemplate: '{{data.query.password}}'
+          resultPath: working.result
+          userTags:
+            - keyTemplate: cpf
+              valueTemplate: '{{data.query.cpf}}'
+            - keyTemplate: location
+              valueTemplate: '{{data.query.location}}'
+            - keyTemplate: phone
+              valueTemplate: '{{data.query.phone}}'
+        id: nHeNlRMitp
+        meta:
+          category: experience
+          description: ''
+          label: 'User: Update'
+          name: update-experience-user
+          x: 680
+          'y': 120
+        outputIds:
+          - - Qa60zryVCV
+        type: UpdateExperienceUserNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: 1GNOGM69Nq
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 40
+          'y': 200
+        outputIds:
+          - - d1r4_5N6C9
+        type: DebugNode
+      - config:
+          bodyTemplate: '{{working.result}}'
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ~exportplaceholderid-experienceView-pageUsers-9~
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: l4IZ7qwcrg
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 880
+          'y': 200
+        outputIds:
+          - - U2lcDVXnBc
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: U2lcDVXnBc
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 880
+          'y': 280
+        outputIds: []
+        type: DebugNode
+      - config:
+          emailOrIdTemplate: '{{data.query.id}}'
+          resultPath: working.result
+        id: A2RS9GJtQo
+        meta:
+          category: experience
+          description: ''
+          label: 'User: Delete'
+          name: delete-experience-user
+          x: 880
+          'y': 120
+        outputIds:
+          - - l4IZ7qwcrg
+        type: DeleteExperienceUserNode
+      - config:
+          bodyTemplate: '{{working.result}}'
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo: []
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: RTLVcc4NU5
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 240
+          'y': 360
+        outputIds:
+          - - UguiBFHwCH
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: UguiBFHwCH
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 240
+          'y': 440
+        outputIds: []
+        type: DebugNode
+      - config:
+          scopePath: working.result
+          script: |2
+                let obj = {};
+                obj["userId"] =  payload["id"];
+                obj["firstName"] = payload["firstName"];
+                obj["lastName"] = payload["lastName"];
+                obj["email"] = payload["email"];
+                obj["password"] = '';
+                obj["location"] = payload.userTags?.location;
+                obj["cpf"] = payload.userTags?.cpf;
+                obj["phone"] = payload.userTags?.phone;
+                obj["type"] = (payload.experienceGroups.length > 0) ? "ADMIN" : "USUÁRIO";
+                obj["tags"] = payload.userTags;
+                payload = obj;
+        id: RndQisdPPr
+        meta:
+          category: logic
+          description: ''
+          label: Function
+          name: function
+          x: 240
+          'y': 280
+        outputIds:
+          - - RTLVcc4NU5
+        type: RawFunctionNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: KQRRCLCVPs
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 240
+          'y': 200
+        outputIds:
+          - - RndQisdPPr
+        type: DebugNode
+      - config:
+          emailOrIdTemplate: '{{data.query.id}}'
+          findMetadata: false
+          findMethod: emailOrId
+          findMultiple: false
+          resultPath: working.result
+          sortDirection: asc
+          sortField: email
+        id: 83urfQxpVP
+        meta:
+          category: experience
+          description: ''
+          label: 'User: Get'
+          name: get-experience-user
+          x: 240
+          'y': 120
+        outputIds:
+          - - KQRRCLCVPs
+        type: GetExperienceUserNode
+    triggers:
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageUsers-7~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users
+          name: endpoint
+          uiId: GDuNKSUk7h
+          x: 40
+          'y': 40
+        outputIds:
+          - - U_o2ML5u5F
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageUsersAdd-11~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users
+          name: endpoint
+          uiId: ANlgReR05L
+          x: 480
+          'y': 40
+        outputIds:
+          - - C57kYpDX9z
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageUsersEdit-12~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users
+          name: endpoint
+          uiId: Lb7oDYyocf
+          x: 680
+          'y': 40
+        outputIds:
+          - - nHeNlRMitp
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageUsersRemove-13~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users
+          name: endpoint
+          uiId: m8SyRYxVnG
+          x: 880
+          'y': 40
+        outputIds:
+          - - A2RS9GJtQo
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getManageUserEdit-14~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /manage/users
+          name: endpoint
+          uiId: ii01LNdeBH
+          x: 240
+          'y': 40
+        outputIds:
+          - - 83urfQxpVP
+        type: endpoint
+    version: develop
+version: 1

@@ -1,0 +1,484 @@
+resourceType: ExperienceFlowVersion
+resources:
+  - enabled: true
+    flowId: ~exportplaceholderid-flow-timeSeriesBulkV2Get-7~
+    globals: []
+    id: ~exportplaceholderid-flowVersion-timeSeriesBulkV2Get-6~
+    name: TimeSeriesBulkV2GET
+    nodes:
+      - config:
+          errorsPath: response
+          schema: "{\r\n  \"type\": \"array\",\r\n  \"items\": {\r\n    \"type\": \"object\",\r\n    \"properties\": {\r\n      \"start\": {\r\n        \"type\": \"number\"\r\n      },\r\n      \"end\": {\r\n        \"type\": \"number\"\r\n      },\r\n      \"duration\": {\r\n        \"type\": \"number\"\r\n      },\r\n      \"resolution\": {\r\n        \"type\": \"number\"\r\n      },\r\n      \"aggregation\": {\r\n        \"oneOf\": [\r\n          {\r\n            \"oneOf\": [\r\n              {\r\n                \"type\": \"string\",\r\n                \"enum\": [\r\n                  \"FIRST\",\r\n                  \"LAST\",\r\n                  \"COUNT\",\r\n                  \"MAX\",\r\n                  \"MIN\",\r\n                  \"MEDIAN\",\r\n                  \"MEAN\",\r\n                  \"SUM\",\r\n                  \"STD_DEV\"\r\n                ]\r\n              },\r\n              {\r\n                \"type\": \"string\",\r\n                \"enum\": [\r\n                  \"NONE\"\r\n                ]\r\n              }\r\n            ]\r\n          },\r\n          {\r\n            \"type\": \"object\",\r\n            \"properties\": {\r\n              \"type\": {\r\n                \"oneOf\": [\r\n                  {\r\n                    \"type\": \"string\",\r\n                    \"enum\": [\r\n                      \"FIRST\",\r\n                      \"LAST\",\r\n                      \"COUNT\",\r\n                      \"MAX\",\r\n                      \"MIN\",\r\n                      \"MEDIAN\",\r\n                      \"MEAN\",\r\n                      \"SUM\",\r\n                      \"STD_DEV\"\r\n                    ]\r\n                  },\r\n                  {\r\n                    \"type\": \"string\",\r\n                    \"enum\": [\r\n                      \"NONE\"\r\n                    ]\r\n                  }\r\n                ]\r\n              },\r\n              \"options\": {\r\n                \"type\": \"object\",\r\n                \"additionalProperties\": false\r\n              }\r\n            },\r\n            \"additionalProperties\": false,\r\n            \"required\": [\r\n              \"type\"\r\n            ]\r\n          },\r\n          {\r\n            \"type\": \"object\",\r\n            \"properties\": {\r\n              \"type\": {\r\n                \"type\": \"string\",\r\n                \"enum\": [\r\n                  \"TIMEATVALUE\"\r\n                ]\r\n              },\r\n              \"options\": {\r\n                \"type\": \"object\",\r\n                \"properties\": {\r\n                  \"value\": {\r\n                    \"oneOf\": [\r\n                      {\r\n                        \"type\": \"string\",\r\n                        \"maxLength\": 255\r\n                      },\r\n                      {\r\n                        \"type\": \"number\"\r\n                      },\r\n                      {\r\n                        \"type\": \"boolean\"\r\n                      }\r\n                    ]\r\n                  }\r\n                },\r\n                \"additionalProperties\": false,\r\n                \"required\": [\r\n                  \"value\"\r\n                ]\r\n              }\r\n            },\r\n            \"additionalProperties\": false,\r\n            \"required\": [\r\n              \"type\",\r\n              \"options\"\r\n            ]\r\n          }\r\n        ]\r\n      },\r\n      \"attributes\": {\r\n        \"type\": \"array\",\r\n        \"items\": {\r\n          \"type\": \"string\",\r\n          \"pattern\": \"^[0-9a-zA-Z_-]{1,255}$\"\r\n        }\r\n      },\r\n      \"limit\": {\r\n        \"type\": \"number\"\r\n      },\r\n      \"order\": {\r\n        \"type\": \"string\",\r\n        \"enum\": [\r\n          \"asc\",\r\n          \"desc\"\r\n        ],\r\n        \"default\": \"asc\"\r\n      }\r\n    },\r\n    \"required\": [\r\n    ],\r\n    \"additionalProperties\": false\r\n  }\r\n}"
+          schemaType: json
+          toValidatePath: data.body
+        id: 4l8kqHAgdo
+        meta:
+          category: logic
+          description: ''
+          label: Validate Body
+          name: validate-payload
+          x: 860
+          'y': 800
+        outputIds:
+          - - GLWo6IFAjs
+          - - 6lR4ksj2mb
+        type: ValidatePayloadNode
+      - config:
+          bodyTemplate: "{\r\n    \"type\": \"Bad request\",\r\n    \"message\": \"Invalid body\",\r\n    \"error\": {{jsonEncode response}}\r\n}"
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo:
+            - keyTemplate: Content-Type
+              valueTemplate: application/json
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '400'
+          sameSiteTemplate: ''
+        id: GLWo6IFAjs
+        meta:
+          category: output
+          description: ''
+          label: '400'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 760
+          'y': 920
+        outputIds:
+          - - FYTmlMSd34
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: FYTmlMSd34
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 760
+          'y': 980
+        outputIds: []
+        type: DebugNode
+      - config:
+          rules:
+            - destination: experience.user.id
+              type: set
+              valueTemplate: 607721adf4574c00068eb901
+              valueTemplateType: string
+        id: A1XypIoeZt
+        meta:
+          category: logic
+          description: ''
+          label: Mutate
+          name: mutate
+          x: 980
+          'y': 400
+        outputIds:
+          - - ySEXpjvmHY
+        type: MutateNode
+      - config:
+          bodyTemplate: response
+          bodyTemplateType: path
+          cookieInfo: []
+          headerInfo:
+            - keyTemplate: Content-Type
+              valueTemplate: application/json
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: qfqLcLoLLY
+        meta:
+          category: output
+          description: ''
+          label: '200'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 940
+          'y': 1000
+        outputIds:
+          - - c5zZEP1ONw
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: c5zZEP1ONw
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 940
+          'y': 1060
+        outputIds: []
+        type: DebugNode
+      - config:
+          deviceIdTemplate: '{{data.params.deviceId}}'
+          idTemplate: '{{experience.user.id}}'
+          idTypeTemplate: experienceUser
+        id: aXxqR0qDJd
+        meta:
+          category: experience
+          description: ''
+          label: 'Device: Verify'
+          name: verify-experience-device
+          x: 780
+          'y': 640
+        outputIds:
+          - - qXeos9NGmv
+          - - 4l8kqHAgdo
+        type: VerifyDeviceNode
+      - config:
+          bodyTemplate: "{\r\n    \"type\": \"Forbidden\",\r\n    \"message\": \"Forbidden\"\r\n}"
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo:
+            - keyTemplate: Content-Type
+              valueTemplate: application/json
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '403'
+          sameSiteTemplate: ''
+        id: qXeos9NGmv
+        meta:
+          category: output
+          description: ''
+          label: '403'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 660
+          'y': 780
+        outputIds:
+          - - WCI33CILYO
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: WCI33CILYO
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 660
+          'y': 840
+        outputIds: []
+        type: DebugNode
+      - config:
+          currentItemPath: query
+          loopSourcePath: data.body
+          mapResultPath: response
+          parallel: true
+        id: 6lR4ksj2mb
+        meta:
+          category: logic
+          description: ''
+          groupStartX: 260
+          groupStartY: 200
+          label: Time Series
+          name: loop
+          x: 940
+          'y': 920
+        outputIds:
+          - - qfqLcLoLLY
+          - - 28jyf3MEb5
+        type: LoopNode
+      - config:
+          loopNodeId: 6lR4ksj2mb
+          mapValuePath: out
+          shouldBreak: false
+        id: De_2UqSg4Z
+        meta:
+          category: loop
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Return
+          name: loop-return
+          x: 280
+          'y': 980
+        outputIds: []
+        type: LoopCapNode
+      - config:
+          action: timeSeriesQuery
+          params:
+            - name: query
+              type: path
+              value: query.value
+          resource: data
+          responsePath: series
+        id: 6Usm3fowVS
+        meta:
+          category: data
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Time Series
+          name: losantapi
+          x: 260
+          'y': 360
+        outputIds:
+          - - YLZ9e_HUmr
+        type: LosantApiNode
+      - config:
+          rules:
+            - destination: query.value.deviceIds
+              type: set
+              valueTemplate: '["{{data.params.deviceId}}"]'
+              valueTemplateType: json
+            - destination: out
+              type: set
+              valueTemplate: '{}'
+              valueTemplateType: json
+        id: 28jyf3MEb5
+        meta:
+          category: logic
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Mutate
+          name: mutate
+          x: 260
+          'y': 280
+        outputIds:
+          - - 6Usm3fowVS
+        type: MutateNode
+      - config:
+          emailOrIdTemplate: '{{data.user}}'
+          findMetadata: false
+          findMethod: emailOrId
+          findMultiple: false
+          resultPath: experience.user
+          sortDirection: asc
+          sortField: email
+        id: ySEXpjvmHY
+        meta:
+          category: experience
+          description: ''
+          label: 'User: Get'
+          name: get-experience-user
+          x: 980
+          'y': 480
+        outputIds:
+          - - aXxqR0qDJd
+        type: GetExperienceUserNode
+      - config:
+          expression: '!{{series.error}}'
+        id: YLZ9e_HUmr
+        meta:
+          category: logic
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Error?
+          name: conditional
+          x: 260
+          'y': 440
+        outputIds:
+          - - IbIaFX_7es
+          - - HAXmB0czjt
+        type: ConditionalNode
+      - config:
+          rules:
+            - destination: out
+              type: set
+              valueTemplate: '{{series.error}}'
+              valueTemplateType: string
+        id: IbIaFX_7es
+        meta:
+          category: logic
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Out
+          name: mutate
+          x: 180
+          'y': 720
+        outputIds:
+          - - pG0grKphYO
+        type: MutateNode
+      - config:
+          destPath: p
+          operations:
+            - inputTemplate: "[\r\n    \"{{data.params.deviceId}}\"\r\n]"
+              type: pick
+          sourcePath: series.result.devices
+        id: HAXmB0czjt
+        meta:
+          category: logic
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Points
+          name: object
+          x: 360
+          'y': 600
+        outputIds:
+          - - wPTbpD1VXP
+        type: ObjectNode
+      - config:
+          rules:
+            - source: series.result.devices
+              type: remove
+            - destination: series.result.points
+              source: 'p.[0].points'
+              type: move
+            - destination: out
+              source: series.result
+              type: move
+        id: 4direajymV
+        meta:
+          category: logic
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Out
+          name: mutate
+          x: 360
+          'y': 720
+        outputIds:
+          - - pG0grKphYO
+        type: MutateNode
+      - config:
+          operations:
+            - outputPath: p
+              type: values
+          sourcePath: p
+        id: wPTbpD1VXP
+        meta:
+          category: logic
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Points
+          name: object
+          x: 360
+          'y': 660
+        outputIds:
+          - - 4direajymV
+        type: ObjectNode
+      - config: {}
+        id: EOTbs9wuF8
+        meta:
+          annotationText: |-
+            ### **Get Time Series Bulk**
+            #### POST /api/v1/data/{id}/time-series-bulk
+
+            | **Params** |**values**|
+            -|-
+            | **id** | {DEVICE_ID} |
+          category: annotation
+          height: 220
+          label: Note
+          name: note
+          width: 540
+          x: 20
+          'y': 300
+        outputIds: []
+        type: AnnotationNode
+      - config: {}
+        id: srfjmKAjf4
+        meta:
+          annotationText: "### \U0001F7E2 [View this flow in QA](https://console.app.wnology.io/applications/5eed0126ec59a70008902b45/workflows/635a8823a46bdc0763492201/develop)\n___\n### \U0001F7E5 [GitLab documentation](https://gitlab.weg.net/wdi/mfm/-/blob/dev/Docs/Modules/-/Backend/API/V2/README.md#-)"
+          category: annotation
+          height: 140
+          label: Note
+          name: note
+          width: 540
+          x: 20
+          'y': 20
+        outputIds: []
+        type: AnnotationNode
+      - config: {}
+        id: Vc79iK2PKk
+        meta:
+          annotationText: "### \U0001F197 Example:\n\n```\n[{\n        \"attributes\": [\n            \"velX\",\n            \"velY\"\n        ],\n        \"aggregation\": \"MEAN\",\n        \"resolution\": 6000000\n    },{\n        \"attributes\": [\n            \"health\"\n        ],\n        \"aggregation\": \"LAST\",\n        \"limit\": 1,\n        \"start\": 1660513829000\n    }]\n```"
+          category: annotation
+          height: 380
+          label: Note
+          name: note
+          width: 540
+          x: 20
+          'y': 1020
+        outputIds: []
+        type: AnnotationNode
+      - config: {}
+        id: Ad4b_UyC0Z
+        meta:
+          annotationText: "\U0001F7E2  **Operacional** | \U0001F7E2 **In QA**\n#### Last mod. by: vmaziero@weg.net"
+          category: annotation
+          height: 100
+          label: Note
+          name: note
+          width: 540
+          x: 20
+          'y': 180
+        outputIds: []
+        type: AnnotationNode
+      - config: {}
+        id: r9_LsLm4bF
+        meta:
+          annotationText: |-
+            | **Body** | **enum** |**e.g.** | **required?** |
+            -|-|-|-
+            | **start** | integer  | 0 | no
+            | **end** | integer  | 0 | no
+            | **duration** | integer  | 0 | no
+            | **resolution** | integer  | 0 | no
+            | **aggregation** | string or object | "" | no
+            | **attributes** | array[string] | [""] | no
+            | **limit** | integer  | 100 | no
+            | **order** | string["asc", "desc" ] | asc | no
+          category: annotation
+          height: 460
+          label: Note
+          name: note
+          width: 540
+          x: 20
+          'y': 540
+        outputIds: []
+        type: AnnotationNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: pG0grKphYO
+        meta:
+          category: debug
+          description: ''
+          groupId: 6lR4ksj2mb
+          label: Debug
+          name: debug
+          x: 300
+          'y': 820
+        outputIds:
+          - - De_2UqSg4Z
+        type: DebugNode
+    triggers:
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-postDataDeviceId-15~
+        meta:
+          category: trigger
+          description: ''
+          label: Endpoint
+          name: endpoint
+          uiId: MFSV0873Ib
+          x: 780
+          'y': 340
+        outputIds:
+          - - 4l8kqHAgdo
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-flow-timeSeriesBulkV2Get-7~-Wo7nynrno9EI62ahQeoe7
+        meta:
+          category: trigger
+          description: ''
+          label: Virtual Button
+          name: virtualButton
+          payload: "{\r\n    \"user\": \"vmaziero@weg.net\",\r\n    \"params\":{\r\n        \"id\": \"6012a7098156850007df170c\"\r\n    },\r\n    \"body\":[{\r\n        \"attributes\": [\r\n            \"velX\",\r\n            \"velY\"\r\n        ],\r\n        \"aggregation\": \"MEAN\",\r\n        \"resolution\": 6000000\r\n    },{\r\n        \"attributes\": [\r\n            \"health\"\r\n        ],\r\n        \"aggregation\": \"LAST\",\r\n        \"limit\": 1,\r\n        \"start\": 1660513829000\r\n    }]\r\n}"
+          uiId: 7j5pc3kDDY
+          x: 980
+          'y': 340
+        outputIds:
+          - - A1XypIoeZt
+        type: virtualButton
+    version: develop
+version: 1

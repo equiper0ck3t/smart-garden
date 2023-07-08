@@ -1,0 +1,178 @@
+<div class="modal fade" id="newUserModal" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <div class="modal-content">
+
+            <form class="form fv-plugins-bootstrap5 fv-plugins-framework" id="newUserForm" method="POST">
+                
+                <div class="modal-header" id="kt_modal_new_address_header">
+                    <h2>Adicionar usuário</h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <i class="fas fa-close"></i>
+                    </div>
+                </div>
+
+                <div class="modal-body py-10 px-lg-17">
+
+                    <div class="scroll-y me-n7 pe-7" id="kt_modal_new_address_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_new_address_header" data-kt-scroll-wrappers="#kt_modal_new_address_scroll" data-kt-scroll-offset="300px" style="max-height: 661px;">
+
+                        <div class="row mb-5">
+                            <div class="col-md-6 fv-row fv-plugins-icon-container">
+                                <label class="required fs-5 fw-semibold mb-2">Primeiro nome</label>
+                                <input type="text" class="form-control form-control-solid" placeholder="Equipe" name="firstName" required>
+                            </div>
+                            <div class="col-md-6 fv-row fv-plugins-icon-container">
+                                <label class="required fs-5 fw-semibold mb-2">Último nome</label>
+                                <input type="text" class="form-control form-control-solid" placeholder="Rocket" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column mb-5 fv-row fv-plugins-icon-container">
+                            <label class="required fs-5 fw-semibold mb-2">E-mail</label>
+                            <input type="email" class="form-control form-control-solid" placeholder="email@gmail.com" name="email" required>
+                        </div>
+
+                        <div class="d-flex flex-column mb-5 fv-row fv-plugins-icon-container">
+                            <label class="required fs-5 fw-semibold mb-2">Senha</label>
+                            <input type="password" minlength="8" class="form-control form-control-solid" placeholder="******" name="password" required>
+                        </div>
+
+                        <div class="d-flex flex-column mb-5 fv-row fv-plugins-icon-container">
+                            <label class="fs-5 fw-semibold mb-2">Endereço</label>
+                            <input class="form-control form-control-solid" placeholder="R. dos Imigrantes, 500 - Rau, Jaraguá do Sul" name="location">
+                        </div>
+
+                        <div class="row g-9 mb-5">
+                            <div class="col-md-6 fv-row fv-plugins-icon-container">
+                                <label class="fs-5 fw-semibold mb-2">CPF</label>
+                                <input class="form-control form-control-solid" placeholder="000.000.000-00" name="cpf">
+                            </div>
+
+                            <div class="col-md-6 fv-row fv-plugins-icon-container">
+                                <label class="fs-5 fw-semibold mb-2">Celular</label>
+                                <input class="form-control form-control-solid" placeholder="(47) 99999-9999" name="phone">
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="userId">
+
+                    </div>
+                </div>
+
+                <div class="modal-footer flex-center">
+                    <button type="reset" id="kt_modal_new_address_cancel" class="btn btn-light me-3" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" id="kt_modal_new_address_submit" class="btn btn-primary">Confirmar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="newDeviceModal" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <div class="modal-content">
+
+            <form class="form fv-plugins-bootstrap5 fv-plugins-framework" id="newDeviceForm" method="POST">
+                
+                <div class="modal-header" id="kt_modal_new_address_header">
+                    <h2>Adicionar dispositivo</h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <i class="fas fa-close"></i>
+                    </div>
+                </div>
+
+                <div class="modal-body py-10 px-lg-17">
+
+                    <div class="scroll-y me-n7 pe-7" id="kt_modal_new_address_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_new_address_header" data-kt-scroll-wrappers="#kt_modal_new_address_scroll" data-kt-scroll-offset="300px" style="max-height: 661px;">
+
+                        <div class="d-flex flex-column mb-5 fv-row fv-plugins-icon-container">
+                            <label class="required fs-5 fw-semibold mb-2">Nome do dispositivo</label>
+                            <input class="form-control form-control-solid" placeholder="Smart Garden - Sensor 01" name="name" required>
+                        </div>
+
+                        <input type="hidden" name="deviceId">
+
+                    </div>
+                </div>
+
+                <div class="modal-footer flex-center">
+                    <button type="reset" id="kt_modal_new_address_cancel" class="btn btn-light me-3" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" id="kt_modal_new_address_submit" class="btn btn-primary">Confirmar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // Submit form
+    $('#newUserForm').submit((e) => {
+        e.preventDefault();
+    }).validate({
+        submitHandler: function (form) {
+
+            // Get formData and method
+            var formData = new FormData(form);
+            var method = $('#newUserForm').attr('method');
+
+            // AJAX Request
+            $.ajax({
+                type: 'GET',
+                url: `/manage/users/${method == 'POST' ? 'add' : 'edit'}?firstName=${formData.get('firstName')}&lastName=${formData.get('lastName')}&email=${formData.get('email')}&password=${formData.get('password')}&location=${formData.get('location')}&cpf=${formData.get('cpf')}&phone=${formData.get('phone')}${method == 'PATCH' ? `&id=${formData.get('userId')}` : ''}`,
+                contentType: 'application/json',
+                error: (err) => {
+                    console.log(err);
+                },
+                success: (data) => {
+                    $('#newUserModal').modal('hide');
+                    $("#newUserForm")[0].reset();
+                    $('#newUserForm').attr('method', 'POST');
+                    location.reload();
+                }
+            });
+
+        }
+    });
+
+    // Submit form
+    $('#newDeviceForm').submit((e) => {
+        e.preventDefault();
+    }).validate({
+        submitHandler: function (form) {
+
+            // Get formData and method
+            var formData = new FormData(form);
+            var method = $('#newDeviceForm').attr('method');
+
+            let userId = '{{experience.user.experienceUserId}}';
+
+            // AJAX Request
+            $.ajax({
+                type: 'GET',
+                url: `/manage/devices/${method == 'POST' ? 'add' : 'edit'}?name=${formData.get('name')}&userId=${userId}${method == 'PATCH' ? `&id=${formData.get('deviceId')}` : ''}`,
+                contentType: 'application/json',
+                error: (err) => {
+                    console.log(err);
+                },
+                success: (data) => {
+                    $('#newDeviceModal').modal('hide');
+                    $("#newDeviceForm")[0].reset();
+                    $('#newDeviceForm').attr('method', 'POST');
+
+                    if (method == 'POST') {
+                        downloadTxtFile('https://~exportplaceholderid-files-domain~/~exportplaceholderid-application-smartGardenPrd-0~/Smart_Garden_Access_Key.txt');
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
+
+        }
+    });
+
+</script>

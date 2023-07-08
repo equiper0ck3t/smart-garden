@@ -1,0 +1,236 @@
+resourceType: ExperienceFlowVersion
+resources:
+  - enabled: true
+    flowId: ~exportplaceholderid-flow-loginLogout-1~
+    globals: []
+    id: ~exportplaceholderid-flowVersion-loginLogout-1~
+    name: Login/Logout
+    nodes:
+      - config:
+          emailTemplate: '{{data.body.email}}'
+          invalidateExistingTokens: false
+          passwordTemplate: '{{data.body.password}}'
+          tokenResultPath: data.responseToken
+          ttlTemplate: ''
+          userResultPath: data.responseUser
+        id: i_2jwVTYQq
+        meta:
+          authMode: emailPassword
+          category: experience
+          description: Do these credentials match an experience user?
+          label: Authenticate
+          name: experience-user-auth
+          x: 300
+          'y': 320
+        outputIds:
+          - - wjsWgitfgn
+          - - 5O6H2BwxBW
+        type: ExperienceUserAuthNode
+      - config:
+          bodyTemplate: |-
+            {
+              "loginFailure": true,
+              "email": {{jsonEncode data.body.email}}
+            }
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ~exportplaceholderid-experienceView-pageLogin-0~
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '401'
+          sameSiteTemplate: ''
+        id: wjsWgitfgn
+        meta:
+          category: output
+          description: >-
+            Invalid credentials. Return the user to the login page and alert
+            them of the error.
+          label: Login Failure
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 100
+          'y': 400
+        outputIds:
+          - - YQWISV5XCv
+        type: EndpointReplyNode
+      - config:
+          bodyTemplate: /
+          bodyTemplateType: string
+          cookieInfo:
+            - maxAgeTemplate: ''
+              nameTemplate: authorization
+              pathTemplate: ''
+              valueTemplate: '{{data.responseToken}}'
+          headerInfo: []
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: redirect
+          responseCodeTemplate: '302'
+          sameSiteTemplate: ''
+        id: 5O6H2BwxBW
+        meta:
+          category: output
+          description: >-
+            Successful login. Redirect the user to the home page and set the
+            auth cookie for future requests.
+          label: Set cookie & redirect to home
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 300
+          'y': 400
+        outputIds:
+          - - v01xUxlgDG
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: YQWISV5XCv
+        meta:
+          category: debug
+          description: Log the requests hitting these endpoints.
+          label: Debug
+          name: debug
+          x: 300
+          'y': 560
+        outputIds: []
+        type: DebugNode
+      - config:
+          expression: '{{ experience.user }}'
+        id: _rRwV98tgL
+        meta:
+          category: logic
+          description: Is the user logged in already?
+          label: Logged in?
+          name: conditional
+          x: 300
+          'y': 240
+        outputIds:
+          - - i_2jwVTYQq
+          - - KuVabCOYvt
+        type: ConditionalNode
+      - config:
+          bodyTemplate: /
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo: []
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: redirect
+          responseCodeTemplate: '302'
+          sameSiteTemplate: ''
+        id: KuVabCOYvt
+        meta:
+          category: output
+          description: User is already logged in. Redirect them to the home page.
+          label: Go to /
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 500
+          'y': 380
+        outputIds:
+          - - YQWISV5XCv
+        type: EndpointReplyNode
+      - config:
+          bodyTemplate: '{{data.responseUser}}'
+          bodyTemplateType: string
+          cookieInfo: []
+          headerInfo: []
+          mqttTopicsTemplate: []
+          replyIdPath: ''
+          replyType: custom
+          responseCodeTemplate: '200'
+          sameSiteTemplate: ''
+        id: v01xUxlgDG
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 300
+          'y': 480
+        outputIds:
+          - - YQWISV5XCv
+        type: EndpointReplyNode
+      - config:
+          bodyTemplate: /login
+          bodyTemplateType: string
+          cookieInfo:
+            - nameTemplate: authorization
+          headerInfo: []
+          replyIdPath: ''
+          replyType: redirect
+          responseCodeTemplate: '302'
+        id: T_eCdAF4O2
+        meta:
+          category: output
+          description: Delete the auth cookie and redirect the user to the login page.
+          label: Go to /login
+          name: endpoint-reply
+          x: 940
+          'y': 260
+        outputIds:
+          - - NH5SqVOtjw
+        type: EndpointReplyNode
+      - config:
+          level: verbose
+          message: ''
+          property: ''
+        id: NH5SqVOtjw
+        meta:
+          category: debug
+          description: Log requests to this endpoint.
+          label: Debug
+          name: debug
+          x: 940
+          'y': 360
+        outputIds: []
+        type: DebugNode
+    triggers:
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-postLogin-2~
+        meta:
+          category: trigger
+          description: When a user submits login credentials ...
+          label: POST /login
+          name: endpoint
+          uiId: ftiJqo0hp8
+          x: 200
+          'y': 160
+        outputIds:
+          - - _rRwV98tgL
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getLogin-0~
+        meta:
+          category: trigger
+          description: When a user visits the login page ...
+          label: GET /login
+          name: endpoint
+          uiId: Acn31c9w3p
+          x: 400
+          'y': 160
+        outputIds:
+          - - _rRwV98tgL
+        type: endpoint
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-getLogout-3~
+        meta:
+          category: trigger
+          description: >-
+            On a request to the logout route (user clicks "Log Out" example
+            dropdown) ...
+          label: GET /logout
+          name: endpoint
+          uiId: bu5GmVSIe8
+          x: 940
+          'y': 160
+        outputIds:
+          - - T_eCdAF4O2
+        type: endpoint
+    version: develop
+version: 1

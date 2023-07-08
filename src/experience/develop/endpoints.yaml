@@ -1,0 +1,164 @@
+resourceType: ExperienceEndpoint
+resources:
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-get-1~
+    method: get
+    route: /
+    staticReply:
+      statusCode: 200
+      type: page
+      value: ~exportplaceholderid-experienceView-pageMain-5~
+    unauthorizedReply:
+      statusCode: 302
+      type: redirect
+      value: /login
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getEvents-6~
+    method: get
+    route: /events
+    unauthorizedReply:
+      statusCode: 302
+      type: redirect
+      value: /login
+    version: develop
+  - access: public
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getLogin-0~
+    method: get
+    route: /login
+    staticReply:
+      statusCode: 200
+      type: page
+      value: ~exportplaceholderid-experienceView-pageLogin-0~
+    version: develop
+  - access: public
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getLogout-3~
+    method: get
+    route: /logout
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageDevices-5~
+    method: get
+    route: /manage/devices
+    unauthorizedReply:
+      statusCode: 302
+      type: redirect
+      value: /login
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageDevicesAdd-8~
+    method: get
+    route: /manage/devices/add
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageDevicesEdit-9~
+    method: get
+    route: /manage/devices/edit
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageDevicesRemove-10~
+    method: get
+    route: /manage/devices/remove
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageUserEdit-14~
+    method: get
+    route: /manage/user/edit
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageUsers-7~
+    method: get
+    route: /manage/users
+    unauthorizedReply:
+      statusCode: 302
+      type: redirect
+      value: /login
+    version: develop
+  - access: public
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageUsersAdd-11~
+    method: get
+    route: /manage/users/add
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageUsersEdit-12~
+    method: get
+    route: /manage/users/edit
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-getManageUsersRemove-13~
+    method: get
+    route: /manage/users/remove
+    version: develop
+  - access: group
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds:
+      - ~exportplaceholderid-experienceGroup-administrators-0~
+    id: ~exportplaceholderid-experienceEndpoint-getPageCommands-4~
+    method: get
+    route: /page/commands
+    staticReply:
+      statusCode: 200
+      type: page
+      value: ~exportplaceholderid-experienceView-pageCommands-6~
+    unauthorizedReply:
+      statusCode: 302
+      type: redirect
+      value: /
+    version: develop
+  - access: authenticated
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-postDataDeviceId-15~
+    method: post
+    route: '/data/{deviceId}'
+    version: develop
+  - access: public
+    enabled: true
+    endpointTags: {}
+    experienceGroupIds: []
+    id: ~exportplaceholderid-experienceEndpoint-postLogin-2~
+    method: post
+    route: /login
+    version: develop
+version: 1

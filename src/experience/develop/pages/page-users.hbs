@@ -1,0 +1,128 @@
+{{#fillSection "pageName"}} Usuários {{/fillSection}}
+{{#fillSection "pageDescription"}} Usuários {{/fillSection}}
+
+<style>
+
+    .bootstrap-table .fixed-table-container .table thead th .th-inner {
+        color: #3f4254!important;
+        font-weight: 500!important;
+    }
+
+    .badge-light-info {
+        color: #7F7F7F;
+        background-color: #efefef;
+    }
+
+</style>
+
+<div class="card card-flush h-xl-100">
+    
+    <div class="card-header pt-7">
+        <div class="col-6">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bold text-gray-800">Tabela de usuários</span>
+                <span class="text-gray-400 mt-1 fw-semibold fs-6">Visualize a qualquer momento os usuários cadastrados em sua aplicação</span>
+            </h3>
+        </div>
+
+        <div class="col-6 d-flex justify-content-end">
+            <button class="badge py-3 px-4 fs-7 mb-7 badge-success mt-2" data-bs-toggle="modal" data-bs-target="#newUserModal" style="border: none;">Cadastrar</button>
+        </div>
+    </div>
+
+    <div class="card-body pt-2 mt-2">
+
+        <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-3 dataTable no-footer" id="results"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{component 'html-modals'}}
+
+<script>
+
+    var users = JSON.parse('{{jsonEncode pageData}}');
+
+    $('#results').bootstrapTable({
+        pageNumber: 1,  
+        pageSize: 10,
+        searchHighlight : 'true',
+        pageList: '[10, 20, 50, 100, 250, 500]',
+        locale: '{{experience.user.userTags.language}}',
+        columns: [{
+            field: 'name',
+            title: 'Nome',
+            align: 'left'
+        }, {
+            field: 'email',
+            title: 'E-mail'
+        }, {
+            field: 'type',
+            title: 'Tipo do usuário',
+            align: 'center',
+            formatter: userTypeFormatter
+        }, {
+            field: 'acoes',
+            title: 'Ações',
+            align: 'center',
+            formatter: actionFormatter
+        }]
+    });
+
+    $('#results').bootstrapTable('load', users);
+
+
+    // Actions Formatter
+
+    function userTypeFormatter(value, row) {
+        return `<span class="badge rounded-pill ${value == 'ADMIN' ? 'bg-success' : 'bg-primary'} ml-auto" style="margin-left: auto;">${value}</span>`;
+    }
+
+    function actionFormatter(value, row) {      
+        return `<i class="fa-solid fa-pencil" style="cursor: pointer;color:#47BE7D;margin-left:1rem" onclick="editUser('${row.id}')"></i>
+                <i class="fa-regular fa-trash-can" style="cursor: pointer;color:#000;margin-left:1rem" onclick="deleteUser('${row.id}')"></i>`;
+    }
+
+    function editUser(userId) {
+        
+        let userInfo = $('#results').bootstrapTable('getData').find(val => val.id == userId);
+
+        let fullNameArray = userInfo?.name?.split(' ');
+        let firstName = fullNameArray[0];
+        let lastName = fullNameArray.slice(1).join(' ');
+
+        $('input[name="firstName"]').val(firstName);
+        $('input[name="lastName"]').val(lastName);
+        $('input[name="email"]').val(userInfo?.email);
+        $('input[name="password"]').val('');
+        $('input[name="location"]').val(userInfo?.tags?.location);
+        $('input[name="cpf"]').val(userInfo?.tags?.cpf);
+        $('input[name="phone"]').val(userInfo?.tags.phone);
+        $('input[name="userId"]').val(userId);
+
+        $('#newUserForm').attr('method', 'PATCH');
+
+        $('#newUserModal').modal('show');
+
+    }
+
+    function deleteUser(userId) {
+    
+        $.ajax({
+            type: 'GET',
+            url: `/manage/users/remove?id=${userId}`,
+            contentType: 'application/json',
+            error: (err) => {
+                console.log(err);
+            },
+            success: (data) => {
+                location.reload();
+            }
+        });
+
+    }
+
+</script>

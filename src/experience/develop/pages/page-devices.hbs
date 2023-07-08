@@ -1,0 +1,134 @@
+{{#fillSection "pageName"}} Dispositivos {{/fillSection}}
+{{#fillSection "pageDescription"}} Dispositivos {{/fillSection}}
+
+<style>
+
+    .bootstrap-table .fixed-table-container .table thead th .th-inner {
+        color: #3f4254!important;
+        font-weight: 500!important;
+    }
+
+    .badge-light-info {
+        color: #7F7F7F;
+        background-color: #efefef;
+    }
+
+</style>
+
+<div class="card card-flush h-xl-100">
+    
+    <div class="card-header pt-7">
+        <div class="col-6">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bold text-gray-800">Tabela de dispositivos</span>
+                <span class="text-gray-400 mt-1 fw-semibold fs-6">Visualize a qualquer momento os dispositivos cadastrados em sua aplicação</span>
+            </h3>
+        </div>
+
+        <div class="col-6 d-flex justify-content-end">
+            <button class="badge py-3 px-4 fs-7 mb-7 badge-success mt-2" data-bs-toggle="modal" data-bs-target="#newDeviceModal" style="border: none;">Cadastrar</button>
+        </div>
+    </div>
+
+    <div class="card-body pt-2 mt-2">
+        <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-3 dataTable no-footer" id="results"></table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{{component 'html-modals'}}
+
+<script>
+
+    var devices = JSON.parse('{{jsonEncode pageData}}')["result"];
+
+    $('#results').bootstrapTable({
+        pageNumber: 1,  
+        pageSize: 10,
+        searchHighlight : 'true',
+        pageList: '[10, 20, 50, 100, 250, 500]',
+        locale: '{{experience.user.userTags.language}}',
+        columns: [{
+            field: 'name',
+            title: 'Nome',
+            align: 'left'
+        }, {
+            field: 'prod',
+            title: 'Produtividade',
+            align: 'center'
+        }, {
+            field: 'lastUpdated',
+            title: 'Ultima publicação',
+            formatter: dateFormatter
+        }, {
+            field: 'acoes',
+            title: 'Ações',
+            formatter: actionFormatter
+        }]
+    });
+
+    $('#results').bootstrapTable('load', devices);
+
+
+    // Actions Formatter
+
+    function dateFormatter(value, row) {
+        return `${new Date(value).toLocaleDateString('pt-BR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
+    }
+
+    function actionFormatter(value, row) {
+        return `<i class="fa-solid fa-pencil" style="cursor:pointer;color:#47BE7D;margin-left:1rem" onclick="editDevice('${row.id}')"></i>
+                <i class="fa-regular fa-trash-can" style="cursor:pointer;color:#000;margin-left:1rem" onclick="deleteDevice('${row.id}')"></i>`;
+    }
+
+    function editDevice(deviceId) {
+        
+        let deviceInfo = $('#results').bootstrapTable('getData').find(val => val.id == deviceId);
+
+        $('input[name="name"]').val(deviceInfo.name);
+        $('input[name="deviceId"]').val(deviceId);
+
+        $('#newDeviceForm').attr('method', 'PATCH');
+        $('#newDeviceModal').modal('show');
+
+    }
+
+    function deleteDevice(deviceId) {
+    
+        $.ajax({
+            type: 'GET',
+            url: `/manage/devices/remove?id=${deviceId}`,
+            contentType: 'application/json',
+            error: (err) => {
+                console.log(err);
+            },
+            success: (data) => {
+                location.reload();
+            }
+        });
+
+    }
+
+    function downloadTxtFile(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'text',
+            success: function(data) {
+                var link = document.createElement('a');
+                link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(data);
+                link.download = 'Smart_Garden_Access_Key.txt';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                location.reload();
+            }
+        });
+    }
+
+</script>

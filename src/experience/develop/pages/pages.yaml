@@ -1,0 +1,50 @@
+resourceType: ExperienceView
+resources:
+  - id: ~exportplaceholderid-experienceView-pageCommands-6~
+    layoutId: ~exportplaceholderid-experienceView-layoutMain-4~
+    localFilename: ./page-commands.hbs
+    name: page-commands
+    version: develop
+    viewTags: {}
+    viewType: page
+  - description: ''
+    id: ~exportplaceholderid-experienceView-pageDevices-7~
+    layoutId: ~exportplaceholderid-experienceView-layoutMain-4~
+    localFilename: ./page-devices.hbs
+    name: page-devices
+    version: develop
+    viewTags: {}
+    viewType: page
+  - description: ''
+    id: ~exportplaceholderid-experienceView-pageEvents-8~
+    layoutId: ~exportplaceholderid-experienceView-layoutMain-4~
+    localFilename: ./page-events.hbs
+    name: page-events
+    version: develop
+    viewTags: {}
+    viewType: page
+  - description: Created for Endpoint GET /login.
+    id: ~exportplaceholderid-experienceView-pageLogin-0~
+    layoutId: ~exportplaceholderid-experienceView-layoutLogin-1~
+    localFilename: ./page-login.hbs
+    name: page-login
+    version: develop
+    viewTags: {}
+    viewType: page
+  - description: ''
+    id: ~exportplaceholderid-experienceView-pageMain-5~
+    layoutId: ~exportplaceholderid-experienceView-layoutMain-4~
+    localFilename: ./page-main.hbs
+    name: page-main
+    version: develop
+    viewTags: {}
+    viewType: page
+  - description: ''
+    id: ~exportplaceholderid-experienceView-pageUsers-9~
+    layoutId: ~exportplaceholderid-experienceView-layoutMain-4~
+    localFilename: ./page-users.hbs
+    name: page-users
+    version: develop
+    viewTags: {}
+    viewType: page
+version: 1

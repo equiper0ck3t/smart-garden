@@ -1,0 +1,61 @@
+resourceType: ExperienceFlowVersion
+resources:
+  - description: Created for Endpoint GET /
+    enabled: true
+    flowId: ~exportplaceholderid-flow-get-0~
+    globals: []
+    id: ~exportplaceholderid-flowVersion-get-0~
+    name: GET /
+    nodes:
+      - config:
+          bodyTemplate: "{\n\t\"myCustomData\": \"Add custom data here\"\n}"
+          bodyTemplateType: json
+          cookieInfo: []
+          headerInfo: []
+          layoutIdTemplate: ''
+          mqttTopicsTemplate: []
+          pageIdTemplate: ''
+          replyIdPath: ''
+          replyType: page
+          responseCodeTemplate: '200'
+        id: sKp78cTi6b
+        meta:
+          category: output
+          description: ''
+          label: 'Endpoint: Reply'
+          mqttTopicsType: []
+          name: endpoint-reply
+          x: 40
+          'y': 140
+        outputIds:
+          - - OlB7EfL3yl
+        type: EndpointReplyNode
+      - config:
+          message: ''
+          property: ''
+        id: OlB7EfL3yl
+        meta:
+          category: debug
+          description: ''
+          label: Debug
+          name: debug
+          x: 40
+          'y': 240
+        outputIds: []
+        type: DebugNode
+    triggers:
+      - config: {}
+        key: ~exportplaceholderid-experienceEndpoint-get-1~
+        meta:
+          category: trigger
+          description: ''
+          label: GET /
+          name: endpoint
+          uiId: KmPBHnfbyv
+          x: 40
+          'y': 40
+        outputIds:
+          - - sKp78cTi6b
+        type: endpoint
+    version: develop
+version: 1
